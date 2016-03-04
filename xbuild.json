@@ -1,0 +1,27 @@
+{
+	"Name": "xBuild",
+	"Version": "2.0.0",
+	"Version Files": [
+		"xbuild.spec"
+	],
+	"Default Goals": [
+		"clean",
+		"composer",
+		"rpm",
+		"deploy"
+	],
+	"Goals": {
+		"clean": {
+		},
+		"composer": {
+		},
+		"rpm": {
+			"arch": "noarch"
+		},
+		"deploy": {
+			"files": [
+				"target/<PROJECT_NAME>-<PROJECT_VERSION>-1.noarch.rpm"
+			]
+		}
+	}
+}
