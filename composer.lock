@@ -124,16 +124,16 @@
         },
         {
             "name": "pxn/phputils",
-            "version": "0.1.10",
+            "version": "0.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PoiXson/phpUtils.git",
-                "reference": "c53a157b21cc81e9bf79b03514a94244ca16f7b5"
+                "reference": "6988fb224462f062a9746dd7219b252a415a5fed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PoiXson/phpUtils/zipball/c53a157b21cc81e9bf79b03514a94244ca16f7b5",
-                "reference": "c53a157b21cc81e9bf79b03514a94244ca16f7b5",
+                "url": "https://api.github.com/repos/PoiXson/phpUtils/zipball/6988fb224462f062a9746dd7219b252a415a5fed",
+                "reference": "6988fb224462f062a9746dd7219b252a415a5fed",
                 "shasum": ""
             },
             "require": {
@@ -169,7 +169,7 @@
             "keywords": [
                 "utilities"
             ],
-            "time": "2016-03-04 14:53:53"
+            "time": "2016-03-04 15:08:52"
         },
         {
             "name": "symfony/console",
