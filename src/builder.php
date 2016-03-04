@@ -53,6 +53,11 @@ class builder {
 		return TRUE;
 	}
 	public function LoadGoal($goalName, $config) {
+		$goalArgs = NULL;
+		// split goal arguments
+		if (\strpos($goalName, ':') !== FALSE) {
+			list($goalName, $goalArgs) = \explode(':', $goalName, 2);
+		}
 		$goalName = San::AlphaNum($goalName);
 		$file = __DIR__.'/goals/goal_'.$goalName.'.php';
 		// ensure goal exists
@@ -64,7 +69,8 @@ class builder {
 		$clss = '\\pxn\\xBuild\\goals\\goal_'.$goalName;
 		$goal = new $clss(
 			$this,
-			$config
+			$config,
+			$goalArgs
 		);
 		$this->goals[] = $goal;
 		return TRUE;

@@ -27,6 +27,10 @@ class config_xbuild extends config_abstract {
 		if (empty($goalName)) {
 			return NULL;
 		}
+		if (\strpos($goalName, ':') !== FALSE) {
+			list($goalName, $tmp) = \explode(':', $goalName, 2);
+			unset($tmp);
+		}
 		if (!isset($this->json['Goals'][$goalName])) {
 			echo "Goal not configured: {$goalName}\n";
 			return NULL;

@@ -14,10 +14,11 @@ abstract class goal_abstract {
 
 	protected $builder;
 	protected $jsonConfig;
+	protected $goalArgs;
 
 
 
-	public function __construct($builder, $jsonConfig) {
+	public function __construct($builder, $jsonConfig, $goalArgs) {
 		if ($builder == NULL) {
 			echo "Invalid builder argument provided!\n";
 			exit(1);
@@ -28,6 +29,20 @@ abstract class goal_abstract {
 		}
 		$this->builder = $builder;
 		$this->jsonConfig = $jsonConfig;
+		if(\is_array($goalArgs)) {
+			$this->goalArgs = $goalArgs;
+		} else {
+			$args = explode(':', $goalArgs);
+			$this->goalArgs = array();
+			foreach ($args as $arg) {
+				if (\strpos($arg, '=') !== FALSE) {
+					list($key, $val) = \explode('=', $arg);
+					$this->goalArgs[$key] = $val;
+				} else {
+					$this->goalArgs[] = $arg;
+				}
+			}
+		}
 	}
 
 
