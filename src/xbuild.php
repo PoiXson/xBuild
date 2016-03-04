@@ -122,19 +122,19 @@ for ($i=1; $i<count($argv); $i++) {
 		break;
 	case '-D':
 	case '--deploy-config-depth':
-		
+//TODO:
 		break;
 	case '-w':
 	case '--max-wait':
-		
+//TODO:
 		break;
 	case '-d':
 	case '--debug':
-		
+//TODO:
 		break;
 	case '-t':
 	case '--dry':
-		
+//TODO:
 		break;
 	case '-h':
 	case '--help':
@@ -158,6 +158,11 @@ for ($i=1; $i<count($argv); $i++) {
 
 DisplayLogo();
 echo "\n\n";
+
+
+
+// ensure single instance
+//TODO:
 
 
 
