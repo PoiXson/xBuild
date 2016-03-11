@@ -42,7 +42,7 @@ const DEPLOY_CONFIG_FILE = 'xdeploy.json';
 		}
 	}
 	if (!$found) {
-		echo "Failed to find composer autoload.php !\n";
+		echo "\nFailed to find composer autoload.php !\n\n";
 		exit(1);
 	}
 }
@@ -204,7 +204,7 @@ $builder->BuildNumber = $BuildNumber;
 
 
 // load goals
-if(count($GoalArgs) == 0) {
+if (count($GoalArgs) == 0) {
 	$defaultGoals = $config->getDefaultGoals();
 	$builder->LoadGoals($defaultGoals);
 } else {

@@ -29,7 +29,7 @@ abstract class goal_abstract {
 		}
 		$this->builder = $builder;
 		$this->jsonConfig = $jsonConfig;
-		if(\is_array($goalArgs)) {
+		if (\is_array($goalArgs)) {
 			$this->goalArgs = $goalArgs;
 		} else {
 			$args = explode(':', $goalArgs);

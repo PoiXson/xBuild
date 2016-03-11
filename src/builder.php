@@ -43,7 +43,7 @@ class builder {
 				$goalName,
 				$goalConfig
 			);
-			if($result !== TRUE) {
+			if ($result !== TRUE) {
 				echo "Failed to load goal: {$goalName}\n";
 				exit(1);
 			}
@@ -111,7 +111,7 @@ class builder {
 
 	// build number
 	public function getBuildNumber() {
-		if(empty($this->BuildNumber)) {
+		if (empty($this->BuildNumber)) {
 			return '<Not Set>';
 		}
 		return (string) ((int) $this->BuildNumber);
