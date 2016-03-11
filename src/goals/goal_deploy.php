@@ -23,8 +23,7 @@ class goal_deploy extends goal_abstract {
 	public function run() {
 		$this->title('Running deploy..');
 		echo "\n";
-echo ("Sorry, this goal is unfinished!\n");
-exit(1);
+fail ('Sorry, this goal is unfinished!');
 	}
 
 

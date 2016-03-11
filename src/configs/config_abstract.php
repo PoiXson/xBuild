@@ -28,12 +28,12 @@ abstract class config_abstract {
 		}
 		$data = \file_get_contents($file);
 		if (empty($data)) {
-			echo "Failed to load file: {$file}\n";
+			fail ("Failed to load file: {$file}", NULL);
 			return FALSE;
 		}
 		$result = self::LoadString($data);
 		if (!$result) {
-			echo "Failed to decode json file: {$file}\n";
+			fail ("Failed to decode json file: {$file}", NULL);
 			return FALSE;
 		}
 		return TRUE;
@@ -44,7 +44,7 @@ abstract class config_abstract {
 		}
 		$json = \json_decode($data, TRUE);
 		if ($json == NULL) {
-			echo "Failed to decode json data\n";
+			fail ("Failed to decode json data", NULL);
 			return FALSE;
 		}
 		$this->json = $json;

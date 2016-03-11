@@ -20,11 +20,11 @@ abstract class goal_abstract {
 
 	public function __construct($builder, $jsonConfig, $goalArgs) {
 		if ($builder == NULL) {
-			echo "Invalid builder argument provided!\n";
+			fail ('Invalid builder argument provided!');
 			exit(1);
 		}
 		if (!\is_array($jsonConfig)) {
-			echo "Invalid jsonConfig argument provided!\n";
+			fail ('Invalid jsonConfig argument provided!');
 			exit(1);
 		}
 		$this->builder = $builder;

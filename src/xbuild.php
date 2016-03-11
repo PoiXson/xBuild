@@ -54,7 +54,7 @@ const DEPLOY_CONFIG_FILE = 'xdeploy.json';
 
 // require shell
 if (!Config::isShell()) {
-	echo "This script must be run locally as a shell script!\n";
+	fail ('This script must be run locally as a shell script!');
 	exit(1);
 }
 
@@ -171,12 +171,12 @@ $config = NULL;
 {
 	$file = BUILD_CONFIG_FILE;
 	if (! \file_exists($file)) {
-		echo "Config file not found: {$file}\n";
+		fail ("Config file not found: {$file}");
 		exit(1);
 	}
 	$config = new config_xbuild();
 	if ( ! $config->LoadFile($file) ) {
-		echo "Failed to load config file: {$file}\n";
+		fail ("Failed to load config file: {$file}");
 		exit(1);
 	}
 }

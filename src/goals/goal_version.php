@@ -23,8 +23,7 @@ class goal_version extends goal_abstract {
 	public function run() {
 		$this->title('Updating version files..');
 		echo "\n";
-echo ("Sorry, this goal is unfinished!\n");
-exit(1);
+fail ('Sorry, this goal is unfinished!');
 	}
 
 

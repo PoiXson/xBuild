@@ -32,7 +32,7 @@ class config_xbuild extends config_abstract {
 			unset($tmp);
 		}
 		if (!isset($this->json['Goals'][$goalName])) {
-			echo "Goal not configured: {$goalName}\n";
+			fail ("Goal not configured: {$goalName}", NULL);
 			return NULL;
 		}
 		return $this->json['Goals'][$goalName];

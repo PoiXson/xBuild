@@ -35,7 +35,7 @@ class builder {
 			// goal config
 			$goalConfig = $this->config->getGoalConfig($goalName);
 			if ($goalConfig === NULL) {
-				echo 'Goal not configured for this project: '.$goalName."\n";
+				fail ("Goal not configured for this project: {$goalName}");
 				exit(1);
 			}
 			// load goal object
@@ -44,7 +44,7 @@ class builder {
 				$goalConfig
 			);
 			if ($result !== TRUE) {
-				echo "Failed to load goal: {$goalName}\n";
+				fail ("Failed to load goal: {$goalName}");
 				exit(1);
 			}
 			$count++;
@@ -62,7 +62,7 @@ class builder {
 		$file = __DIR__.'/goals/goal_'.$goalName.'.php';
 		// ensure goal exists
 		if (!\file_exists($file)) {
-			echo 'Goal type not found: '.$goalName."\n";
+			fail ("Goal type not found: {$goalName}");
 			exit(1);
 		}
 		// load goal class object

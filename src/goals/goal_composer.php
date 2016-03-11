@@ -23,8 +23,7 @@ class goal_composer extends goal_abstract {
 	public function run() {
 		$this->title('Running composer..');
 		echo "\n";
-echo ("Sorry, this goal is unfinished!\n");
-exit(1);
+fail ('Sorry, this goal is unfinished!');
 	}
 
 
