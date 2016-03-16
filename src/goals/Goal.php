@@ -9,8 +9,14 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Defines;
+use pxn\phpUtils\Paths;
+use pxn\phpUtils\San;
+
 
 abstract class Goal {
+
+	public static $goals = [];
 
 	protected $builder;
 	protected $jsonConfig;
@@ -18,31 +24,42 @@ abstract class Goal {
 
 
 
-	public function __construct($builder, $jsonConfig, $goalArgs) {
-		if ($builder == NULL) {
-			fail ('Invalid builder argument provided!');
+	/**
+	 * Load a goal by name
+	 * @param string $name
+	 */
+	public static function LoadGoalByName($name, $args) {
+		if (empty($name)) {
+			fail ('name argument is required!');
 			exit(1);
 		}
-		if (!\is_array($jsonConfig)) {
-			fail ('Invalid jsonConfig argument provided!');
+		if (!\is_array($args)) {
+			fail ('steps argument is required!');
 			exit(1);
 		}
-		$this->builder = $builder;
-		$this->jsonConfig = $jsonConfig;
-		if (\is_array($goalArgs)) {
-			$this->goalArgs = $goalArgs;
-		} else {
-			$args = explode(':', $goalArgs);
-			$this->goalArgs = array();
-			foreach ($args as $arg) {
-				if (\strpos($arg, '=') !== FALSE) {
-					list($key, $val) = \explode('=', $arg);
-					$this->goalArgs[$key] = $val;
-				} else {
-					$this->goalArgs[] = $arg;
-				}
-			}
+		$name = San::AlphaNum($name);
+		$goal = NULL;
+		$file = \implode(Defines::DIR_SEP, [
+				Paths::base(),
+				'goals',
+				"goal_{$name}.php"
+				]);
+		if (!\file_exists($file))
+			return NULL;
+		$clss = "\\pxn\\xBuild\\goals\\goal_{$name}";
+		try {
+			$goal = new $clss($name, $args);
+		} catch (\Exception $e) {
+			fail ($e->getMessage(), 1, $e);
+			exit(1);
 		}
+		self::$goals[$name] = $goal;
+		return $goal;
+	}
+	public static function getGoalByName($name) {
+		if (isset(self::$goals[$name]))
+			return self::$goals[$name];
+		return NULL;
 	}
 
 
