@@ -1,7 +1,6 @@
 {
 	"name": "xBuild",
 	"description": "Build and deploy scripts for PoiXson projects",
-	"version": "0.2.0",
 	"type": "project",
 	"homepage": "http://poixson.com/",
 	"license": "GPL-3.0",
