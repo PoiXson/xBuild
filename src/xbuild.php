@@ -79,7 +79,7 @@ function DisplayLogo() {
 function DisplayHelp() {
 	global $argv;
 	echo "Usage:\n";
-	echo '  '.$argv[0].' [options] [goals]'."\n";
+	echo "  {$argv[0]} [options] [goals]\n";
 	echo "\n";
 	echo "Goals:\n";
 	echo "  clean\n";
@@ -146,7 +146,7 @@ for ($i=1; $i<count($argv); $i++) {
 		break;
 	default:
 		if (Strings::StartsWith($argv[$i], '--')) {
-			echo 'Unknown argument: '.$argv[$i]."\n";
+			echo "Unknown argument: {$argv[$i]}\n";
 			exit(1);
 		}
 		$GoalArgs[] = $argv[$i];
@@ -167,45 +167,48 @@ echo "\n\n";
 
 
 // load build config
-$config = NULL;
+$buildConfig = NULL;
 {
 	$file = BUILD_CONFIG_FILE;
 	if (! \file_exists($file)) {
 		fail ("Config file not found: {$file}");
 		exit(1);
 	}
-	$config = new config_xbuild();
-	if ( ! $config->LoadFile($file) ) {
+	$buildConfig = new config_xbuild();
+	if ( ! $buildConfig->LoadFile($file) ) {
 		fail ("Failed to load config file: {$file}");
 		exit(1);
 	}
 }
 // load deploy config
-$deploy = NULL;
+$deployConfig = NULL;
 {
-//	$file = DEPLOY_CONFIG_FILE;
-//	if (\file_exists($file)) {
-//		$deploy = new config_xbuild();
-//		if ( ! $deploy->LoadFile($file) ) {
-//			echo "Failed to load config file: {$file}\n";
-//			exit(1);
-//		}
-//	}
+	$file = DEPLOY_CONFIG_FILE;
+	if (\file_exists($file)) {
+		$deployConfig = new config_xdeploy();
+		if ( ! $deployConfig->LoadFile($file) ) {
+			echo "Failed to load config file: {$file}\n";
+			exit(1);
+		}
+	}
 }
 
 
 
 // load builder
 $builder = new builder(
-	$config
+	$buildConfig,
+	$deployConfig
 );
 $builder->BuildNumber = $BuildNumber;
+// run the build
+$builder->run();
 
 
 
 // load goals
 if (count($GoalArgs) == 0) {
-	$defaultGoals = $config->getDefaultGoals();
+	$defaultGoals = $buildConfig->getDefaultGoals();
 	$builder->LoadGoals($defaultGoals);
 } else {
 	$builder->LoadGoals($GoalArgs);
