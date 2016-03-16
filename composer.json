@@ -4,7 +4,7 @@
 	"version": "0.2.0",
 	"type": "project",
 	"homepage": "http://poixson.com/",
-	"license": "GPL-3",
+	"license": "GPL-3.0",
 	"keywords": [
 		"build", "ci"
 	],
