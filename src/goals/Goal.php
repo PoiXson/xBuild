@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-abstract class goal_abstract {
+abstract class Goal {
 
 	protected $builder;
 	protected $jsonConfig;

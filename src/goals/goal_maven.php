@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_maven extends goal_abstract {
+class goal_maven extends Goal {
 
 
 

@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_rpm extends goal_abstract {
+class goal_rpm extends Goal {
 
 
 

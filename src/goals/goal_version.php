@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_version extends goal_abstract {
+class goal_version extends Goal {
 
 
 
