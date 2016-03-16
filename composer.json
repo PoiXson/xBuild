@@ -1,11 +1,11 @@
 {
-	"name": "xBuild",
+	"name": "pxn/xbuild",
 	"description": "Build and deploy scripts for PoiXson projects",
 	"type": "project",
 	"homepage": "http://poixson.com/",
 	"license": "GPL-3.0",
 	"keywords": [
-		"build", "ci"
+		"builder", "ci"
 	],
 	"support": {
 		"issues": "https://github.com/PoiXson/xBuild/issues",
