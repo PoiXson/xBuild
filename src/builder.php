@@ -9,102 +9,66 @@
  */
 namespace pxn\xBuild;
 
-use pxn\phpUtils\San;
+use pxn\xBuild\goals\Goal;
 
 
 class builder {
 
 	public $config;
+	public $deployConfig;
 	public $BuildNumber = NULL;
-	public $goals       = array();
+	public $runGoals    = array();
 
 
 
-	public function __construct($config) {
-		$this->config = $config;
+	public function __construct($config, $deployConfig) {
+		$this->config       = $config;
+		$this->deployConfig = $deployConfig;
+		// load goals from config
+		$config->getGoals();
 	}
 
 
 
-	public function LoadGoals($goals) {
-		if (!\is_array($goals)) {
-			throw new \Exception('Invalid goals argument provided!');
+	public function run($run=NULL) {
+		// override run goals
+		if (\is_array($run) && !empty($run)) {
+			$this->runGoals = $run;
 		}
-		$count = 0;
-		foreach ($goals as $goalName) {
-			// goal config
-			$goalConfig = $this->config->getGoalConfig($goalName);
-			if ($goalConfig === NULL) {
-				fail ("Goal not configured for this project: {$goalName}");
-				exit(1);
-			}
-			// load goal object
-			$result = $this->LoadGoal(
-				$goalName,
-				$goalConfig
-			);
-			if ($result !== TRUE) {
-				fail ("Failed to load goal: {$goalName}");
-				exit(1);
-			}
-			$count++;
-		}
-		echo "Loaded {$count} goals\n";
-		return TRUE;
-	}
-	public function LoadGoal($goalName, $config) {
-		$goalArgs = NULL;
-		// split goal arguments
-		if (\strpos($goalName, ':') !== FALSE) {
-			list($goalName, $goalArgs) = \explode(':', $goalName, 2);
-		}
-		$goalName = San::AlphaNum($goalName);
-		$file = __DIR__.'/goals/goal_'.$goalName.'.php';
-		// ensure goal exists
-		if (!\file_exists($file)) {
-			fail ("Goal type not found: {$goalName}");
-			exit(1);
-		}
-		// load goal class object
-		$clss = '\\pxn\\xBuild\\goals\\goal_'.$goalName;
-		$goal = new $clss(
-			$this,
-			$config,
-			$goalArgs
-		);
-		$this->goals[] = $goal;
-		return TRUE;
-	}
-
-
-
-	public function run() {
-		$goalsString = '';
-		$first = TRUE;
-		foreach ($this->goals as $goal) {
-			if ($first) {
-				$first = FALSE;
+		// default run goal
+		if (!\is_array($this->runGoals) || empty($this->runGoals)) {
+			if ($this->deployConfig == NULL) {
+				$this->runGoals = [
+					'build'
+				];
 			} else {
-				$goalsString .= ', ';
+				$this->runGoals = [
+					'release'
+				];
 			}
-			$goalsString .= $goal->getName();
+			$goalsStr = \implode(', ', $this->runGoals);
+			echo "Running default goal [ {$goalsStr} ] ..\n";
+		} else {
+			$goalsStr = \implode(', ', $this->runGoals);
+			echo "Running goals [ {$goalsStr} ] ..\n";
 		}
-		echo "\n\n";
-		echo "RUNNING...  [ {$goalsString} ]\n";
-		echo "\n\n";
-		// run goals
-		$first = TRUE;
-		foreach ($this->goals as $goal) {
-			if ($first) {
-				$first = FALSE;
-				echo "----------------------------------------\n";
-				echo "\n\n";
+		// perform goals
+		foreach ($this->runGoals as $run) {
+//			$args = NULL;
+//			if (\strpos($run, ':', 1) !== FALSE) {
+//				list($run, $args) = explode(':', $run, 2);
+//			}
+//			$goal = Goal::getGoalByName($run, $args);
+			$goal = Goal::getGoalByName($run);
+			if ($goal == NULL) {
+				fail ("Goal not found! {$run}");
+				exit(1);
 			}
 			$goal->run();
-			echo "\n\n";
-			echo "----------------------------------------\n";
-			echo "\n\n";
 		}
+
+
+
 	}
 
 
