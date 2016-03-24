@@ -21,7 +21,7 @@ class goal_gradle extends Goal {
 
 
 	public function run() {
-		$this->title('Building with gradle..');
+		self::title('Building with gradle..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

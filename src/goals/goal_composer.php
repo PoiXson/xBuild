@@ -21,7 +21,7 @@ class goal_composer extends Goal {
 
 
 	public function run() {
-		$this->title('Running composer..');
+		self::title('Running composer..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

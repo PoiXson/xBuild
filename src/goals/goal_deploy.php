@@ -21,7 +21,7 @@ class goal_deploy extends Goal {
 
 
 	public function run() {
-		$this->title('Running deploy..');
+		self::title('Running deploy..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

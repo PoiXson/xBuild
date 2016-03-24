@@ -21,7 +21,7 @@ class goal_prep extends Goal {
 
 
 	public function run() {
-		$this->title('Running prep..');
+		self::title('Running prep..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

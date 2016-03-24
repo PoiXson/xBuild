@@ -21,7 +21,7 @@ class goal_version extends Goal {
 
 
 	public function run() {
-		$this->title('Updating version files..');
+		self::title('Updating version files..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

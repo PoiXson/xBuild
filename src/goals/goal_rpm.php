@@ -21,7 +21,7 @@ class goal_rpm extends Goal {
 
 
 	public function run() {
-		$this->title('Building rpm..');
+		self::title('Building rpm..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

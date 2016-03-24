@@ -21,7 +21,7 @@ class goal_group extends Goal {
 
 
 	public function run() {
-		$this->title('Running group..');
+		self::title('Running group..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

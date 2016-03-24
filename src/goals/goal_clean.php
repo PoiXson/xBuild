@@ -21,7 +21,7 @@ class goal_clean extends Goal {
 
 
 	public function run() {
-		$this->title('Running clean..');
+		self::title('Running clean..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

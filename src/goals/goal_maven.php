@@ -21,7 +21,7 @@ class goal_maven extends Goal {
 
 
 	public function run() {
-		$this->title('Building with maven..');
+		self::title('Building with maven..');
 		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}

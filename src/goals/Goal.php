@@ -70,7 +70,7 @@ abstract class Goal {
 
 
 
-	public function title($msg) {
+	public static function title($msg) {
 		echo " [[ {$msg} ]] \n";
 	}
 
