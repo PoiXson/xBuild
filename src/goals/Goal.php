@@ -18,9 +18,15 @@ abstract class Goal {
 
 	public static $goals = [];
 
-	protected $builder;
-	protected $jsonConfig;
-	protected $goalArgs;
+	public $name;
+	public $args;
+
+
+
+	public function __construct($name, $args) {
+		$this->name = $name;
+		$this->args = $args;
+	}
 
 
 
@@ -28,27 +34,52 @@ abstract class Goal {
 	 * Load a goal by name
 	 * @param string $name
 	 */
-	public static function LoadGoalByName($name, $args) {
+	public static function LoadGoal($name, $type, $args) {
+		// validate arguments
+		$name = \trim($name);
+		$type = \trim($type);
 		if (empty($name)) {
 			fail ('name argument is required!');
 			exit(1);
 		}
-		if (!\is_array($args)) {
-			fail ('steps argument is required!');
+		if (empty($type)) {
+			fail ('type argument is required!');
 			exit(1);
 		}
-		$name = San::AlphaNum($name);
+		if (!\is_array($args)) {
+			fail ('args argument is required!');
+			exit(1);
+		}
+		// sanitize name/type values
+		$name = San::AlphaNumSafe($name);
+		$type = San::AlphaNum($type);
+		if (empty($name)) {
+			fail ('Invalid name argument!');
+			exit(1);
+		}
+		if (empty($type)) {
+			fail ('Invalid type argument!');
+			exit(1);
+		}
 		$goal = NULL;
-		$file = \implode(Defines::DIR_SEP, [
-				Paths::base(),
-				'goals',
-				"goal_{$name}.php"
-				]);
-		if (!\file_exists($file))
-			return NULL;
-		$clss = "\\pxn\\xBuild\\goals\\goal_{$name}";
+		// class file exists
+		{
+			$file = \implode(Defines::DIR_SEP, [
+					Paths::base(),
+					'goals',
+					"goal_{$type}.php"
+			]);
+			if (!\file_exists($file))
+				return NULL;
+		}
+		// load goal class
+		$goal = NULL;
 		try {
-			$goal = new $clss($name, $args);
+			$clss = "\\pxn\\xBuild\\goals\\goal_{$type}";
+			$goal = new $clss(
+					$name,
+					$args
+			);
 		} catch (\Exception $e) {
 			fail ($e->getMessage(), 1, $e);
 			exit(1);
@@ -64,14 +95,37 @@ abstract class Goal {
 
 
 
-	public abstract function getName();
-
-	public abstract function run();
+	public function getName() {
+		return $this->name;
+	}
+	protected function getTitlePrefix() {
+		return 'Running';
+	}
+	public function displayTitle() {
+		self::title();
+	}
+	public abstract function getType();
 
 
 
 	public static function title($msg) {
 		echo " [[ {$msg} ]] \n";
+	}
+
+
+
+	public abstract function run();
+	public function triggerRun() {
+		$name   = $this->getName();
+		$type   = $this->getType();
+		$prefix = $this->getTitlePrefix();
+		if ($type == $name) {
+			self::title("{$prefix} {$name}..");
+		} else {
+			self::title("{$prefix} {$type} {$name}..");
+		}
+		echo "\n";
+		$this->run();
 	}
 
 

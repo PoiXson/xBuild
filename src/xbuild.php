@@ -27,6 +27,7 @@ const DEPLOY_CONFIG_FILE = 'xdeploy.json';
 // find autoloader.php
 {
 	$SearchPaths = [
+//		__DIR__.'/../../phpUtils',
 		__DIR__,
 		__DIR__.'/..',
 	];
@@ -179,6 +180,8 @@ $configBuild = NULL;
 		fail ("Failed to load config file: {$file}");
 		exit(1);
 	}
+	// pre-load goals
+	$configBuild->loadGoals();
 }
 // load deploy config
 $configDeploy = NULL;
@@ -202,23 +205,28 @@ $builder = new Builder(
 	$buildNumber
 );
 $builder->BuildNumber = $buildNumber;
-// run the build
-$builder->run();
+$runGoals = array();
 
 
 
-// load goals
-if (count($GoalArgs) == 0) {
-	$defaultGoals = $buildConfig->getDefaultGoals();
-	$builder->LoadGoals($defaultGoals);
+// default goals
+if (\is_array($GoalArgs) && \count($GoalArgs) > 0) {
+	$builder->usingDefaultGoals = Builder::USING_DEFINED_GOALS;
+	$runGoals = $GoalArgs;
 } else {
-	$builder->LoadGoals($GoalArgs);
+	if ($configDeploy == NULL) {
+		$builder->usingDefaultGoals = UsingDefaultGoalsEnum::USING_DEFAULT_BUILD;
+		$runGoals = Builder::DEFAULT_BUILD_GOALS;
+	} else {
+		$builder->usingDefaultGoals = UsingDefaultGoalsEnum::USING_DEFAULT_DEPLOY;
+		$runGoals = Builder::DEFAULT_DEPLOY_GOALS;
+	}
 }
 
 
 
-// run goals
-$builder->run();
+// run the build
+$builder->run($runGoals);
 
 
 

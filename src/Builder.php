@@ -36,56 +36,72 @@ class Builder {
 
 
 
+	// run the goals
 	public function run($run=NULL) {
 		// override run goals
 		if (\is_array($run) && !empty($run)) {
 			$this->runGoals = $run;
 		}
-		// default run goal
-		if (!\is_array($this->RunGoals) || empty($this->RunGoals)) {
-			if ($this->configDeploy == NULL) {
-				$this->RunGoals = [
-					'build'
-				];
-			} else {
-				$this->RunGoals = [
-					'release'
-				];
+		{
+			$msgGoals = \implode(', ', $this->runGoals);
+			$msgCount = \count($this->runGoals);
+			$msgS     = ($msgCount > 1 ? 's' : '');
+			$msgDefault = '';
+			if ($this->usingDefaultGoals == UsingDefaultGoalsEnum::USING_DEFINED_GOALS) {
+				$msgDefault = 'default ';
 			}
-			$goalsStr = \implode(', ', $this->RunGoals);
-			echo "Running default goal [ {$goalsStr} ] ..\n";
-		} else {
-			$goalsStr = \implode(', ', $this->RunGoals);
-			echo "Running goals [ {$goalsStr} ] ..\n";
+			echo "\n";
+			Goal::title("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
+		}
+		return $this->doRun();
+	}
+	public function doRun() {
+		if (!\is_array($this->runGoals)) {
+			\fail ('Invalid runGoals value provided to builder!');
+			exit(1);
+		}
+		if (\count($this->runGoals) == 0) {
+			Goal::title('No goals to run.');
+			return FALSE;
 		}
 		// perform goals
-		foreach ($this->RunGoals as $run) {
-//			$args = NULL;
-//			if (\strpos($run, ':', 1) !== FALSE) {
-//				list($run, $args) = explode(':', $run, 2);
-//			}
-//			$goal = Goal::getGoalByName($run, $args);
+		$countSuccess = 0;
+		$countFailed  = 0;
+		foreach ($this->runGoals as $run) {
+			if ($run == NULL) continue;
+//echo "\n\nRUN: {$run}\n\n";
 			$goal = Goal::getGoalByName($run);
+//	$args = NULL;
+//	if (\strpos($run, ':', 1) !== FALSE) {
+//	list($run, $args) = explode(':', $run, 2);
+//	}
 			if ($goal == NULL) {
+//print_r(Goal::$goals);
 				fail ("Goal not found! {$run}");
 				exit(1);
 			}
-			$goal->run();
+			$result = $goal->triggerRun();
+			if ($result) {
+				$countSuccess++;
+			} else {
+				$countFailed++;
+				//return FALSE;
+				fail ("Failed to run goal: {$run}");
+				exit(1);
+			}
 		}
-
-
-
+		return TRUE;
 	}
 
 
 
-	// build number
-	public function getBuildNumber() {
-		if (empty($this->BuildNumber)) {
-			return '<Not Set>';
-		}
-		return (string) ((int) $this->BuildNumber);
-	}
+//	// build number
+//	public function getbuildNumber() {
+//		if (empty($this->buildNumber)) {
+//			return '<Not Set>';
+//		}
+//		return (string) ((int) $this->buildNumber);
+//	}
 
 
 

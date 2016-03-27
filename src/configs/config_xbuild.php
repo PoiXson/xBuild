@@ -74,43 +74,61 @@ class config_xbuild extends config_abstract {
 	 * @return array[goal] or null on failure
 	 */
 	public function getGoals() {
-		if (\is_array($this->goals))
-			return $this->goals;
+		if (!\is_array($this->goals)) {
+			$this->loadGoals();
+		}
 		if (!isset($this->json[self::KEY_GOALS]))
 			return NULL;
-		$goals = array();
-		$count = 0;
-		foreach ($this->json[self::KEY_GOALS] as $name => $args) {
-			if (empty($name)) {
-				fail ('Empty goal name found in config!');
-				exit(1);
-			}
-			$name = San::AlphaNum($name);
-			if (empty($name)) {
-				fail ('Invalid goal name found in config!');
-				exit(1);
-			}
-			if (!\is_array($args)) {
-				fail ('Invalid config structure! goal arguments should be a map!');
-				exit(1);
-			}
-			$type = $name;
-			if (isset($args['Type'])) {
-				$type = $args['Type'];
+		return $this->goals;
+	}
+	public function loadGoals() {
+		if (\is_array($this->goals))
+			return;
+			$goals = array();
+			$count = 0;
+			foreach ($this->json[self::KEY_GOALS] as $name => $args) {
+				// validate args array
+				if (!\is_array($args)) {
+					fail ('Invalid config structure! goal arguments should be a map!');
+					exit(1);
+				}
+				// validate name value
+				if (empty($name)) {
+					fail ('Empty goal name found in config!');
+					exit(1);
+				}
+				if (!San::Validate_AlphaNumSafe($name)) {
+					fail ("Invalid goal name found in config! {$name}");
+					exit(1);
+				}
+				// default type value
+				$type = isset($args['Type'])
+				? $args['Type']
+				: $name;
 				unset($args['Type']);
+				// validate type value
+				if (!San::Validate_AlphaNumSafe($type)) {
+					fail ("Invalid goal type found in config! {$type}");
+					exit(1);
+				}
+				// load goal class
+				{
+					$g = Goal::LoadGoal(
+							$name,
+							$type,
+							$args
+							);
+					if ($g == NULL) {
+						fail ("Failed to load goal: {$name}");
+						exit(1);
+					}
+					$goals[$name] = $g;
+				}
+				$count++;
 			}
-			// load goal class
-			$g = Goal::LoadGoalByName($type, $args);
-			if ($g == NULL) {
-				fail ("Failed to load goal: {$name}");
-				exit(1);
-			}
-			$goals[$name] = $g;
-			$count++;
-		}
-		echo "Found [ {$count} ] goals in config\n";
-		$this->goals = $goals;
-		return $goals;
+			echo "Found [ {$count} ] goals in config\n";
+			$this->goals = $goals;
+			return $goals;
 	}
 
 
