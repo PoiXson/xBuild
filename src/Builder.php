@@ -14,11 +14,14 @@ use pxn\xBuild\goals\Goal;
 
 class Builder {
 
+	const DEFAULT_BUILD_GOALS  = [ 'build'   ];
+	const DEFAULT_DEPLOY_GOALS = [ 'release' ];
 
 	public $configBuild;
 	public $configDeploy;
 	public $buildNumber;
 	public $runGoals;
+	public $usingDefaultGoals = NULL;
 
 
 
