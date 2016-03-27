@@ -4,22 +4,33 @@
 	"Version Files": [
 		"xbuild.spec"
 	],
-	"Default Goals": [
-		"clean",
-		"composer",
-		"rpm",
-		"deploy"
-	],
 	"Goals": {
+		"build": {
+			"Type": "group",
+			"0": "composer-update"
+		},
+		"release": {
+			"Type": "group",
+			"0": "clean",
+			"1": "composer-install",
+			"2": "rpm",
+			"3": "deploy"
+		},
 		"clean": {
 		},
-		"composer": {
+		"composer-install": {
+			"Type": "composer",
+			"Args": "install -a --profile"
+		},
+		"composer-update": {
+			"Type": "composer",
+			"Args": "update --profile"
 		},
 		"rpm": {
-			"arch": "noarch"
+			"Arch": "noarch"
 		},
 		"deploy": {
-			"files": [
+			"Files": [
 				"target/<PROJECT_NAME>-<PROJECT_VERSION>-1.noarch.rpm"
 			]
 		}
