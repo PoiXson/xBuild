@@ -17,18 +17,18 @@ class Builder {
 
 	public $configBuild;
 	public $configDeploy;
-	public $BuildNumber;
-	public $RunGoals;
+	public $buildNumber;
+	public $runGoals;
 
 
 
 
 	public function __construct($configBuild, $configDeploy,
-			$BuildNumber, $RunGoals=NULL) {
+			$buildNumber, $runGoals=NULL) {
 		$this->configBuild  = $configBuild;
 		$this->configDeploy = $configDeploy;
-		$this->BuildNumber  = $BuildNumber;
-		$this->RunGoals     = $RunGoals;
+		$this->buildNumber  = $buildNumber;
+		$this->runGoals     = $runGoals;
 	}
 
 
@@ -36,7 +36,7 @@ class Builder {
 	public function run($run=NULL) {
 		// override run goals
 		if (\is_array($run) && !empty($run)) {
-			$this->RunGoals = $run;
+			$this->runGoals = $run;
 		}
 		// default run goal
 		if (!\is_array($this->RunGoals) || empty($this->RunGoals)) {

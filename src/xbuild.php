@@ -107,7 +107,7 @@ function DisplayHelp() {
 
 
 $NoLogo = FALSE;
-$BuildNumber = NULL;
+$buildNumber = NULL;
 $GoalArgs = array();
 for ($i=1; $i<count($argv); $i++) {
 	switch ($argv[$i]) {
@@ -115,9 +115,9 @@ for ($i=1; $i<count($argv); $i++) {
 	case '--build-number':
 		$i++;
 		if (Numbers::isNumber($argv[$i])) {
-			$BuildNumber = (int) $argv[$i];
+			$buildNumber = (int) $argv[$i];
 		} else {
-			$BuildNumber = NULL;
+			$buildNumber = NULL;
 		}
 		break;
 	case '-D':
@@ -199,9 +199,9 @@ $configDeploy = NULL;
 $builder = new Builder(
 	$configBuild,
 	$configDeploy,
-	$BuildNumber
+	$buildNumber
 );
-$builder->BuildNumber = $BuildNumber;
+$builder->BuildNumber = $buildNumber;
 // run the build
 $builder->run();
 
