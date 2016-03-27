@@ -12,6 +12,7 @@ namespace pxn\xBuild\goals;
 
 class goal_group extends Goal {
 
+	const MAX_GOALS = 256;
 
 
 
@@ -22,8 +23,29 @@ class goal_group extends Goal {
 
 
 	public function run() {
-fail ('Sorry, this goal is unfinished!');
+		for ($index=0; $index<self::MAX_GOALS; $index++) {
+			// hex step index
+			$hexIndex = \dechex($index);
+			// skip or break
+			if (!isset($this->args[$hexIndex])) {
+				if ($index == 0)
+					continue;
+				break;
+			}
+			// run goal
+			$run = $this->args[$hexIndex];
+//echo "\n\nGRUN: {$run}\n\n";
+//echo "[ {$index} ] ".\dechex($index)."\n";
+			$goal = Goal::getGoalByName($run);
+			if ($goal == NULL) {
+				fail ("Goal not found by group! {$run}");
+				exit(1);
+			}
+			$goal->triggerRun();
+		}
+		return TRUE;
 	}
+
 
 
 }
