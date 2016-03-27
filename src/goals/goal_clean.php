@@ -14,15 +14,13 @@ class goal_clean extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'clean';
 	}
 
 
 
 	public function run() {
-		self::title('Running clean..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 

@@ -14,15 +14,16 @@ class goal_rpm extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'rpm';
+	}
+	protected function getTitlePrefix() {
+		return 'Building';
 	}
 
 
 
 	public function run() {
-		self::title('Building rpm..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 

@@ -14,8 +14,11 @@ class goal_maven extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'maven';
+	}
+	protected function getTitlePrefix() {
+		return 'Building with';
 	}
 
 

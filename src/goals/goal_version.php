@@ -14,15 +14,13 @@ class goal_version extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'version';
 	}
 
 
 
 	public function run() {
-		self::title('Updating version files..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 

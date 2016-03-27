@@ -14,15 +14,16 @@ class goal_gradle extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'gradle';
+	}
+	protected function getTitlePrefix() {
+		return 'Building with';
 	}
 
 
 
 	public function run() {
-		self::title('Building with gradle..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 

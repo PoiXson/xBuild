@@ -14,16 +14,28 @@ class goal_composer extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'composer';
 	}
 
 
 
 	public function run() {
-		self::title('Running composer..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
+
+
+
+// composer install --profile -o
+// composer show -t --profile
+
+//Process Exit Codes#
+//0: OK
+//1: Generic/unknown error code
+//2: Dependency solving error code
+
+
+
+
 	}
 
 

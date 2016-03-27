@@ -14,15 +14,14 @@ class goal_group extends Goal {
 
 
 
-	public function getName() {
+
+	public function getType() {
 		return 'group';
 	}
 
 
 
 	public function run() {
-		self::title('Running group..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 

@@ -14,15 +14,13 @@ class goal_deploy extends Goal {
 
 
 
-	public function getName() {
+	public function getType() {
 		return 'deploy';
 	}
 
 
 
 	public function run() {
-		self::title('Running deploy..');
-		echo "\n";
 fail ('Sorry, this goal is unfinished!');
 	}
 
