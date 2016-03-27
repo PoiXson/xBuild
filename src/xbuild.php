@@ -167,26 +167,26 @@ echo "\n\n";
 
 
 // load build config
-$buildConfig = NULL;
+$configBuild = NULL;
 {
 	$file = BUILD_CONFIG_FILE;
 	if (! \file_exists($file)) {
 		fail ("Config file not found: {$file}");
 		exit(1);
 	}
-	$buildConfig = new config_xbuild();
-	if ( ! $buildConfig->LoadFile($file) ) {
+	$configBuild = new config_xbuild();
+	if ( ! $configBuild->LoadFile($file) ) {
 		fail ("Failed to load config file: {$file}");
 		exit(1);
 	}
 }
 // load deploy config
-$deployConfig = NULL;
+$configDeploy = NULL;
 {
 	$file = DEPLOY_CONFIG_FILE;
 	if (\file_exists($file)) {
-		$deployConfig = new config_xdeploy();
-		if ( ! $deployConfig->LoadFile($file) ) {
+		$configDeploy = new config_xdeploy();
+		if ( ! $configDeploy->LoadFile($file) ) {
 			echo "Failed to load config file: {$file}\n";
 			exit(1);
 		}
@@ -196,9 +196,10 @@ $deployConfig = NULL;
 
 
 // load builder
-$builder = new builder(
-	$buildConfig,
-	$deployConfig
+$builder = new Builder(
+	$configBuild,
+	$configDeploy,
+	$BuildNumber
 );
 $builder->BuildNumber = $BuildNumber;
 // run the build

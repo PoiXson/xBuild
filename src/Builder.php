@@ -12,20 +12,23 @@ namespace pxn\xBuild;
 use pxn\xBuild\goals\Goal;
 
 
-class builder {
-
-	public $config;
-	public $deployConfig;
-	public $BuildNumber = NULL;
-	public $runGoals    = array();
+class Builder {
 
 
+	public $configBuild;
+	public $configDeploy;
+	public $BuildNumber;
+	public $RunGoals;
 
-	public function __construct($config, $deployConfig) {
-		$this->config       = $config;
-		$this->deployConfig = $deployConfig;
-		// load goals from config
-		$config->getGoals();
+
+
+
+	public function __construct($configBuild, $configDeploy,
+			$BuildNumber, $RunGoals=NULL) {
+		$this->configBuild  = $configBuild;
+		$this->configDeploy = $configDeploy;
+		$this->BuildNumber  = $BuildNumber;
+		$this->RunGoals     = $RunGoals;
 	}
 
 
@@ -33,27 +36,27 @@ class builder {
 	public function run($run=NULL) {
 		// override run goals
 		if (\is_array($run) && !empty($run)) {
-			$this->runGoals = $run;
+			$this->RunGoals = $run;
 		}
 		// default run goal
-		if (!\is_array($this->runGoals) || empty($this->runGoals)) {
-			if ($this->deployConfig == NULL) {
-				$this->runGoals = [
+		if (!\is_array($this->RunGoals) || empty($this->RunGoals)) {
+			if ($this->configDeploy == NULL) {
+				$this->RunGoals = [
 					'build'
 				];
 			} else {
-				$this->runGoals = [
+				$this->RunGoals = [
 					'release'
 				];
 			}
-			$goalsStr = \implode(', ', $this->runGoals);
+			$goalsStr = \implode(', ', $this->RunGoals);
 			echo "Running default goal [ {$goalsStr} ] ..\n";
 		} else {
-			$goalsStr = \implode(', ', $this->runGoals);
+			$goalsStr = \implode(', ', $this->RunGoals);
 			echo "Running goals [ {$goalsStr} ] ..\n";
 		}
 		// perform goals
-		foreach ($this->runGoals as $run) {
+		foreach ($this->RunGoals as $run) {
 //			$args = NULL;
 //			if (\strpos($run, ':', 1) !== FALSE) {
 //				list($run, $args) = explode(':', $run, 2);
