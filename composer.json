@@ -38,6 +38,7 @@
 		"pxn/phputils": "0.1.*",
 		"monolog/monolog": "1.18.*",
 		"symfony/console": "v3.0.*",
+		"symfony/process": "v3.0.*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "5.2.*"
