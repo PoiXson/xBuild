@@ -10,8 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_composer extends Goal {
-	use GoalShell;
+class goal_composer extends goal_shell {
 
 
 
@@ -26,17 +25,17 @@ class goal_composer extends Goal {
 
 
 
-	// Process Exit Codes#
-	//  0: OK
-	//  1: Generic/unknown error code
-	//  2: Dependency solving error code
-	public function run() {
-		return $this->runShellHex($this->args);
+// Process Exit Codes#
+//  0: OK
+//  1: Generic/unknown error code
+//  2: Dependency solving error code
+//	public function run() {
+//		return $this->runShellHex($this->args);
 //		$args = $this->args['Args'];
 //		$cmd = "composer {$args}";
 //		return $this->runShell($cmd);
 // composer show -t --profile
-	}
+//	}
 
 
 
