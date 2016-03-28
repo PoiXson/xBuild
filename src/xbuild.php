@@ -109,6 +109,7 @@ function DisplayHelp() {
 
 $NoLogo = FALSE;
 $buildNumber = NULL;
+$dry = FALSE;
 $GoalArgs = array();
 for ($i=1; $i<count($argv); $i++) {
 	switch ($argv[$i]) {
@@ -135,7 +136,7 @@ for ($i=1; $i<count($argv); $i++) {
 		break;
 	case '-t':
 	case '--dry':
-//TODO:
+		$dry = TRUE;
 		break;
 	case '-h':
 	case '--help':
@@ -205,6 +206,7 @@ $builder = new Builder(
 	$buildNumber
 );
 $builder->BuildNumber = $buildNumber;
+$builder->dry = $dry;
 $runGoals = array();
 
 

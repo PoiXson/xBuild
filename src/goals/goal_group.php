@@ -41,7 +41,7 @@ class goal_group extends Goal {
 				fail ("Goal not found by group! {$run}");
 				exit(1);
 			}
-			$goal->triggerRun();
+			$result = $goal->triggerRun($this->dry);
 		}
 		return TRUE;
 	}

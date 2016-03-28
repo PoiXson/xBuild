@@ -20,6 +20,7 @@ abstract class Goal {
 
 	public $name;
 	public $args;
+	public $dry = NULL;
 
 
 
@@ -115,7 +116,10 @@ abstract class Goal {
 
 
 	public abstract function run();
-	public function triggerRun() {
+	public function triggerRun($dry=NULL) {
+		if ($dry !== NULL) {
+			$this->dry = ($dry == TRUE);
+		}
 		$name   = $this->getName();
 		$type   = $this->getType();
 		$prefix = $this->getTitlePrefix();

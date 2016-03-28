@@ -20,9 +20,9 @@ class Builder {
 	public $configBuild;
 	public $configDeploy;
 	public $buildNumber;
+	public $dry = NULL;
 	public $runGoals;
 	public $usingDefaultGoals = NULL;
-
 
 
 
@@ -80,7 +80,7 @@ class Builder {
 				fail ("Goal not found! {$run}");
 				exit(1);
 			}
-			$result = $goal->triggerRun();
+			$result = $goal->triggerRun($this->dry);
 			if ($result) {
 				$countSuccess++;
 			} else {
