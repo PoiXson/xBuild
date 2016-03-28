@@ -32,7 +32,7 @@ trait GoalShell {
 		$countSuccess = 0;
 		while (TRUE) {
 			// hex step index
-			$hexIndex = \dechex($index);
+			$hexIndex = \dechex($index++);
 			// skip or break
 			if (!isset($args[$hexIndex])) {
 				if ($index == 0)
@@ -53,6 +53,7 @@ trait GoalShell {
 					return $result;
 				}
 			}
+			$countSuccess++;
 			echo "\n";
 			// max reached
 			if ($countSuccess >= $MaxCommands) {
@@ -65,8 +66,6 @@ trait GoalShell {
 				// finished
 				break;
 			}
-			$index++;
-			$countSuccess++;
 		}
 		echo " Finished [ {$countSuccess} ] commands!\n";
 		return $result;
