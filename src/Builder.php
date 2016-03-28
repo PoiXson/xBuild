@@ -62,7 +62,7 @@ class Builder {
 		}
 		if (\count($this->runGoals) == 0) {
 			Goal::title('No goals to run.');
-			return FALSE;
+			return 1;
 		}
 		// perform goals
 		$countSuccess = 0;
@@ -81,16 +81,14 @@ class Builder {
 				exit(1);
 			}
 			$result = $goal->triggerRun($this->dry);
-			if ($result) {
-				$countSuccess++;
-			} else {
+			if ($result != 0) {
 				$countFailed++;
-				//return FALSE;
-				fail ("Failed to run goal: {$run}");
-				exit(1);
+				fail ("Failed to run goal: {$result} - {$run}");
+				return $result;
 			}
+			$countSuccess++;
 		}
-		return TRUE;
+		return $result;
 	}
 
 

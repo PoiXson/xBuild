@@ -43,8 +43,8 @@ class goal_group extends Goal {
 			}
 			$result = $goal->triggerRun($this->dry);
 			if ($result != 0) {
-				fail ("Failed to run goal: {$run}");
-				break;
+				fail ("Failed to run goal: {$result} - {$run}");
+				return $result;
 			}
 		}
 		return $result;
