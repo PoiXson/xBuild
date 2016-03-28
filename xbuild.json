@@ -12,11 +12,16 @@
 		"release": {
 			"Type": "group",
 			"0": "clean",
-			"1": "composer-install",
-			"2": "rpm",
-			"3": "deploy"
+			"1": "git-pull",
+			"2": "composer-install",
+			"3": "rpm",
+			"4": "deploy"
 		},
 		"clean": {
+		},
+		"git-pull": {
+			"Type": "git",
+			"0": "git pull"
 		},
 		"composer-install": {
 			"Type": "composer",
