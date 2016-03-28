@@ -213,7 +213,7 @@ $runGoals = array();
 
 // default goals
 if (\is_array($GoalArgs) && \count($GoalArgs) > 0) {
-	$builder->usingDefaultGoals = Builder::USING_DEFINED_GOALS;
+	$builder->usingDefaultGoals = UsingDefaultGoalsEnum::USING_DEFINED_GOALS;
 	$runGoals = $GoalArgs;
 } else {
 	if ($configDeploy == NULL) {

@@ -20,11 +20,12 @@
 		},
 		"composer-install": {
 			"Type": "composer",
-			"Args": "install -a --profile"
+			"0": "composer install -a --profile",
+			"1": "# composer show -t --profile"
 		},
 		"composer-update": {
 			"Type": "composer",
-			"Args": "update --profile"
+			"0": "composer update --profile"
 		},
 		"rpm": {
 			"Arch": "noarch"

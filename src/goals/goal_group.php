@@ -23,7 +23,8 @@ class goal_group extends Goal {
 
 
 	public function run() {
-		for ($index=0; $index<self::MAX_GOALS; $index++) {
+		$result = 0;
+		for ($index = 0; $index < self::MAX_GOALS; $index++) {
 			// hex step index
 			$hexIndex = \dechex($index);
 			// skip or break
@@ -34,16 +35,19 @@ class goal_group extends Goal {
 			}
 			// run goal
 			$run = $this->args[$hexIndex];
-//echo "\n\nGRUN: {$run}\n\n";
-//echo "[ {$index} ] ".\dechex($index)."\n";
+			echo " GROUP [ {$hexIndex} ] {$run}\n";
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {
 				fail ("Goal not found by group! {$run}");
 				exit(1);
 			}
 			$result = $goal->triggerRun($this->dry);
+			if ($result != 0) {
+				fail ("Failed to run goal: {$run}");
+				break;
+			}
 		}
-		return TRUE;
+		return $result;
 	}
 
 

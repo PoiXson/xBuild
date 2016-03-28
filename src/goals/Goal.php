@@ -103,7 +103,14 @@ abstract class Goal {
 		return 'Running';
 	}
 	public function displayTitle() {
-		self::title();
+		$name   = $this->getName();
+		$type   = $this->getType();
+		$prefix = $this->getTitlePrefix();
+		if ($type == $name) {
+			self::title("{$prefix} {$name}..");
+		} else {
+			self::title("{$prefix} {$type} {$name}..");
+		}
 	}
 	public abstract function getType();
 
@@ -123,13 +130,9 @@ abstract class Goal {
 		$name   = $this->getName();
 		$type   = $this->getType();
 		$prefix = $this->getTitlePrefix();
-		if ($type == $name) {
-			self::title("{$prefix} {$name}..");
-		} else {
-			self::title("{$prefix} {$type} {$name}..");
-		}
+		$this->displayTitle();
 		echo "\n";
-		$this->run();
+		return $this->run();
 	}
 
 
