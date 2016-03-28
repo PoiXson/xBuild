@@ -35,7 +35,7 @@ class goal_group extends Goal {
 			}
 			// run goal
 			$run = $this->args[$hexIndex];
-			echo " GROUP [ {$hexIndex} ] {$run}\n";
+			echo " [ GRP {$hexIndex} ] {$run}\n";
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {
 				fail ("Goal not found by group! {$run}");

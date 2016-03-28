@@ -11,6 +11,7 @@ namespace pxn\xBuild\goals;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+
 use pxn\phpUtils\Strings;
 
 
@@ -22,7 +23,7 @@ trait GoalShell {
 
 
 
-	protected function runShellHex($args, $MaxCommands=1) {
+	protected function runShellHex($args, $MaxCommands=16) {
 		if (!\is_array($args)) {
 			fail ('Invalid args argument provided to runShellHex() function!');
 			exit(1);
@@ -43,9 +44,14 @@ trait GoalShell {
 				continue;
 			// run command
 			$cmd = $args[$hexIndex];
-			echo " CMD [ {$hexIndex} ] {$cmd}\n";
+			if (Strings::StartsWith($cmd, '#')) {
+				continue;
+			}
+			$msgDry = ($this->dry ? '##DRY## ' : '');
+			echo " {$msgDry}[ CMD {$hexIndex} ] {$cmd}\n";
+//			echo " CMD [ {$hexIndex} ] {$cmd}\n";
 			if ($this->dry) {
-				echo "Skipping command, dry run.\n";
+//				echo " ### Dry run, command skipped ### \n";
 			} else {
 				$result = $this->runShellCmd($cmd);
 				if ($result != 0) {
@@ -62,12 +68,15 @@ trait GoalShell {
 				if (isset($args[$hexIndex])) {
 					fail ('Error!!! Reached max allowable commands, but more haven\'t been run!');
 					exit(1);
+				} else {
+					echo "Reached max allowable commands.\n";
 				}
 				// finished
 				break;
 			}
 		}
-		echo " Finished [ {$countSuccess} ] commands!\n";
+		$msgS = ($countSuccess > 1 ? 's' : '');
+		echo " Finished [ {$countSuccess} ] command{$msgS}!\n";
 		return $result;
 	}
 	protected function runShellCmd($cmd) {
