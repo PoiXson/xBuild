@@ -20,6 +20,9 @@ trait GoalShell {
 
 
 	protected function runShell($cmd) {
+		if (Strings::StartsWith($cmd, '#')) {
+			return 0;
+		}
 		$this->process = NULL;
 		$this->process = new Process($cmd);
 		$this->process->start();
