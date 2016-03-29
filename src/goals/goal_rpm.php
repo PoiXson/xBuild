@@ -16,6 +16,7 @@ use pxn\phpUtils\Paths;
 class goal_rpm extends goal_shell {
 
 	const RPMBUILD_PATH = '/usr/bin/rpmbuild';
+	const BUILD_ROOT = 'rpmbuild-root';
 
 
 
@@ -29,7 +30,9 @@ class goal_rpm extends goal_shell {
 
 
 	public function run() {
-		$pathTool = self::RPMBUILD_PATH;
+		$msgDry = ($this->dry ? '##DRY## ' : '');
+		$pathTool  = self::RPMBUILD_PATH;
+		$buildroot = self::BUILD_ROOT;
 		// check for tools
 		if (!\file_exists($pathTool)) {
 			fail ("RPM-Build not found! {$pathTool}");
@@ -61,8 +64,132 @@ class goal_rpm extends goal_shell {
 			$arch = 'noarch';
 			echo "Defaulting to noarch..\n";
 		}
+		// remove old build files
+		{
+			$path = "{$pwd}/{$buildroot}/";
+			if (\is_dir($path)) {
+				echo " Removing old dir.. {$buildroot}/\n";
+				$cmd = "rm -Rvf --preserve-root '{$path}'";
+				if ($this->dry) {
+//					echo " {$msgDry}{$cmd}";
+				} else {
+					$result = $this->runShellCmd($cmd);
+					if ($result != 0) {
+						fail ("Failed to remove old build dir! {$result} - {$buildroot}/");
+						exit(1);
+					}
+				}
+			}
+			$path = "{$pwd}/target/";
+			if (\is_dir($path)) {
+				echo " Removing old dir.. target/\n";
+				$cmd = "rm -Rvf --preserve-root '{$path}'";
+				if ($this->dry) {
+//					echo " {$msgDry}{$cmd}";
+				} else {
+					$result = $this->runShellCmd($cmd);
+					if ($result != 0) {
+						fail ("Failed to remove old build dir! {$result} - target/");
+						exit(1);
+					}
+				}
+			}
+		}
+		// create build space
+		{
+			$path = "{$pwd}/{$buildroot}/";
+			echo " Creating dir.. {$buildroot}/\n";
+			if ($this->dry) {
+//				echo " {$msgDry}mkdir '{$path}'\n";
+			} else {
+				$result = \mkdir($path, 0775);
+				if (!$result) {
+					fail ("Failed to create directory {$path}");
+					exit(1);
+				}
+			}
+		}
+		{
+			$dirs = [
+				'BUILD',
+				'RPMS',
+				'SOURCE',
+				'SOURCES',
+				'SPECS',
+				'SRPMS',
+				'tmp'
+			];
+			foreach ($dirs as $dir) {
+				$path = "{$pwd}/{$buildroot}/{$dir}/";
+				echo " Creating dir.. {$dir}/\n";
+				if ($this->dry) {
+//					echo " {$msgDry}mkdir '{$path}'\n";
+				} else {
+					$result = \mkdir($path, 0775);
+					if (!$result) {
+						fail ("Failed to create directory {$path}");
+						exit(1);
+					}
+				}
+			}
+		}
+		// copy spec file
+		{
+			echo " Copying spec file.. {$specFile}\n";
+			if ($this->dry) {
+//				echo " {msgDry}copy '{$pwd}/{$specFile}' '{$pwd}/{$buildroot}/SPECS/'\n";
+			} else {
+				$result = \copy(
+					"{$pwd}/{$specFile}",
+					"{$pwd}/{$buildroot}/SPECS/"
+				);
+				if (!$result) {
+					fail ("Failed to copy spec file! {$specFile}");
+					exit(1);
+				}
+			}
+		}
+//TODO: download source files
+//	# download source files
+//	if [ ! -z $RPM_SOURCES ]; then
+//		for URL in "${RPM_SOURCES[@]}"; do
+//			wget -P "${BUILD_ROOT}/SOURCES/" "${URL}" || {
+//				BUILD_FAILED=true
+//				errcho "Failed to download source! ${URL}"
+//				return 1
+//			}
+//			echo "URL: "$URL
+//		done
+//		newline
+//		newline
+//		newline
+//	fi
+//	if [ -z $RPM_SOURCE ]; then
+//		_RPM_SOURCE="${PWD}"
+//	else
+//		_RPM_SOURCE="${PWD}/${RPM_SOURCE}"
+//	fi
+		// build the rpm
+		$buildNumber = 'x';
+		$cmd = 'rpmbuild -bb '.
+				"--target {$arch} ".
+				"--define='_topdir {$pwd}/{$buildroot}' ".
+				"--define='_tmppath {$pwd}/{$buildroot}/tmp' ".
+				"--define='SOURCE_ROOT {$pwd}' ".
+				"--define='_rpmdir {$pwd}/target' ".
+				"--define='BUILD_NUMBER {$buildNumber}' ".
+				"{$pwd}/{$buildroot}/SPECS/{$specFile}";
+		if ($this->dry) {
+			echo " {$msgDry}{$cmd}\n";
+		} else {
+			$result = $this->runShellCmd($cmd);
+			if ($result != 0) {
+				fail ("Failed to build rpm! {$result} - {$cmd}");
+				exit(1);
+			}
+		}
 //		parent::run();
-fail ('Sorry, this goal is unfinished!');
+//fail ('Sorry, this goal is unfinished!');
 	}
 
 
