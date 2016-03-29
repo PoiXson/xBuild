@@ -12,7 +12,7 @@ namespace pxn\xBuild\goals;
 use pxn\phpUtils\Paths;
 
 
-class goal_gradle extends Goal {
+class goal_gradle extends goal_shell {
 
 	const GRADLE_PATH = '/usr/bin/gradle/latest/bin/gradle';
 

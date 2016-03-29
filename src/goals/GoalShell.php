@@ -49,11 +49,10 @@ trait GoalShell {
 			}
 			$msgDry = ($this->dry ? '##DRY## ' : '');
 			echo " {$msgDry}[ CMD {$hexIndex} ] {$cmd}\n";
-			echo "  ...  ... \n";
 //			echo " CMD [ {$hexIndex} ] {$cmd}\n";
 			if ($this->dry) {
 //				echo " ### Dry run, command skipped ### \n";
-//				echo "  ...  ... \n";
+				echo "  ...  ... \n";
 			} else {
 				$result = $this->runShellCmd($cmd);
 				if ($result != 0) {

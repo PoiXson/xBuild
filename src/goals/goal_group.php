@@ -35,6 +35,8 @@ class goal_group extends Goal {
 			}
 			// run goal
 			$run = $this->args[$hexIndex];
+			if (empty($run))
+				continue;
 			echo " [ GRP {$hexIndex} ] {$run}\n";
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {

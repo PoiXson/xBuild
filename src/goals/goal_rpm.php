@@ -13,7 +13,7 @@ use pxn\phpUtils\Strings;
 use pxn\phpUtils\Paths;
 
 
-class goal_rpm extends Goal {
+class goal_rpm extends goal_shell {
 
 	const RPMBUILD_PATH = '/usr/bin/rpmbuild';
 
@@ -50,6 +50,12 @@ class goal_rpm extends Goal {
 		if (!\file_exists($pathConfig)) {
 			fail ("{$specFile} file not found in workspace! {$pathConfig}");
 			exit(1);
+		}
+		// build arch
+		$arch = $this->args['Arch'];
+		if (empty($arch)) {
+			$arch = 'noarch';
+			echo "Defaulting to noarch..\n";
 		}
 //		parent::run();
 fail ('Sorry, this goal is unfinished!');
