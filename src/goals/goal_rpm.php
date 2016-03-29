@@ -133,6 +133,7 @@ class goal_rpm extends goal_shell {
 				}
 			}
 		}
+		echo "\n";
 		// copy spec file
 		{
 			echo " Copying spec file.. {$specFile}\n";
@@ -149,6 +150,7 @@ class goal_rpm extends goal_shell {
 				}
 			}
 		}
+		echo "\n";
 //TODO: download source files
 //	# download source files
 //	if [ ! -z $RPM_SOURCES ]; then
