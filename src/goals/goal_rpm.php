@@ -142,7 +142,7 @@ class goal_rpm extends goal_shell {
 			} else {
 				$result = \copy(
 					"{$pwd}/{$specFile}",
-					"{$pwd}/{$buildroot}/SPECS/"
+					"{$pwd}/{$buildroot}/SPECS/{$specFile}"
 				);
 				if (!$result) {
 					fail ("Failed to copy spec file! {$specFile}");
