@@ -52,7 +52,6 @@ echo "Install.."
 		|| exit 1
 # copy script files
 for file in \
-	xbuild.sh                   \
 	xbuild.php                  \
 	Builder.php                 \
 	UsingDefaultGoalsEnum.php   \
@@ -81,6 +80,10 @@ for file in \
 		"${RPM_BUILD_ROOT}%{prefix}/${file}" \
 			|| exit 1
 done
+%{__install} -m 0550 \
+	"%{SOURCE_ROOT}/xbuild.sh" \
+	"${RPM_BUILD_ROOT}%{prefix}/xbuild.sh" \
+		|| exit 1
 # configs
 for file in \
 	global.json                 \
