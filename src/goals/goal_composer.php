@@ -12,6 +12,8 @@ namespace pxn\xBuild\goals;
 
 class goal_composer extends goal_shell {
 
+	const COMPOSER_PATH = '/usr/bin/composer';
+
 
 
 	public function getType() {
@@ -25,6 +27,14 @@ class goal_composer extends goal_shell {
 
 
 
+	public function run() {
+		$path = self::COMPOSER_PATH;
+		if (!\file_exists($path)) {
+			fail ("Composer not found! {$path}");
+			exit(1);
+		}
+		parent::run();
+	}
 // Process Exit Codes#
 //  0: OK
 //  1: Generic/unknown error code

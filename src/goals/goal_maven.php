@@ -12,6 +12,8 @@ namespace pxn\xBuild\goals;
 
 class goal_maven extends Goal {
 
+	const MAVEN_PATH = '/usr/bin/mvn';
+
 
 
 	public function getType() {
@@ -24,8 +26,12 @@ class goal_maven extends Goal {
 
 
 	public function run() {
-		self::title('Building with maven..');
-		echo "\n";
+		$path = self::MAVEN_PATH;
+		if (!\file_exists($path)) {
+			fail ("Maven not found! {$path}");
+			exit(1);
+		}
+//		parent::run();
 fail ('Sorry, this goal is unfinished!');
 	}
 

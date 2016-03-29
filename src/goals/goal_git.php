@@ -12,10 +12,23 @@ namespace pxn\xBuild\goals;
 
 class goal_git extends goal_shell {
 
+	const GIT_PATH = '/usr/bin/git';
+
 
 
 	public function getType() {
 		return 'git';
+	}
+
+
+
+	public function run() {
+		$path = self::GIT_PATH;
+		if (!\file_exists($path)) {
+			fail ("Git not found! {$path}");
+			exit(1);
+		}
+		parent::run();
 	}
 
 

@@ -12,6 +12,8 @@ namespace pxn\xBuild\goals;
 
 class goal_gradle extends Goal {
 
+	const GRADLE_PATH = '/usr/bin/gradle/latest/bin/gradle';
+
 
 
 	public function getType() {
@@ -24,6 +26,12 @@ class goal_gradle extends Goal {
 
 
 	public function run() {
+		$path = self::GRADLE_PATH;
+		if (!\file_exists($path)) {
+			fail ("Gradle not found! {$path}");
+			exit(1);
+		}
+//		parent::run();
 fail ('Sorry, this goal is unfinished!');
 	}
 

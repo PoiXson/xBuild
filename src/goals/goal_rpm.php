@@ -12,6 +12,8 @@ namespace pxn\xBuild\goals;
 
 class goal_rpm extends Goal {
 
+	const RPMBUILD_PATH = '/usr/bin/rpmbuild';
+
 
 
 	public function getType() {
@@ -24,6 +26,12 @@ class goal_rpm extends Goal {
 
 
 	public function run() {
+		$path = self::RPMBUILD_PATH;
+		if (!\file_exists($path)) {
+			fail ("RPM-Build not found! {$path}");
+			exit(1);
+		}
+//		parent::run();
 fail ('Sorry, this goal is unfinished!');
 	}
 
