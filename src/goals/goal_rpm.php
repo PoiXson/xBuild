@@ -78,6 +78,7 @@ class goal_rpm extends goal_shell {
 						fail ("Failed to remove old build dir! {$result} - {$buildroot}/");
 						exit(1);
 					}
+					echo "\n";
 				}
 			}
 			$path = "{$pwd}/target/";
@@ -92,6 +93,7 @@ class goal_rpm extends goal_shell {
 						fail ("Failed to remove old build dir! {$result} - target/");
 						exit(1);
 					}
+					echo "\n";
 				}
 			}
 		}

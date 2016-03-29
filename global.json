@@ -16,12 +16,12 @@
 		},
 		"composer-install": {
 			"Type": "composer",
-			"0": "composer install -vv -a --profile",
-			"1": "composer show -vv -t --profile"
+			"0": "composer install -v -a --profile",
+			"1": "composer show -v -t --profile"
 		},
 		"composer-update": {
 			"Type": "composer",
-			"0": "composer update -vv --profile"
+			"0": "composer update -v --profile"
 		},
 		"deploy": {
 			"Files": []
