@@ -38,6 +38,10 @@ class goal_composer extends goal_shell {
 		}
 		// check for composer.json file
 		$pwd = Paths::pwd();
+		if (empty($pwd)) {
+			fail ('Failed to get pwd!');
+			exit(1);
+		}
 		$pathConfig = "{$pwd}/composer.json";
 		if (!\file_exists($pathConfig)) {
 			fail ("composer.json file not found in workspace! {$pathConfig}");

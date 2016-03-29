@@ -34,6 +34,10 @@ class goal_maven extends Goal {
 		}
 		// check for pom.xml file
 		$pwd = Paths::pwd();
+		if (empty($pwd)) {
+			fail ('Failed to get pwd!');
+			exit(1);
+		}
 		$pathConfig = "{$pwd}/pom.xml";
 		if (!\file_exists($pathConfig)) {
 			fail ("pom.xml file not found in workspace! {$pathConfig}");

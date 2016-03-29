@@ -36,6 +36,10 @@ class goal_gradle extends goal_shell {
 		}
 		// check for build.gradle file
 		$pwd = Paths::pwd();
+		if (empty($pwd)) {
+			fail ('Failed to get pwd!');
+			exit(1);
+		}
 		$pathConfig = "{$pwd}/build.gradle";
 		if (!\file_exists($pathConfig)) {
 			fail ("build.gradle file not found in workspace! {$pathConfig}");

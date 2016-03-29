@@ -34,6 +34,10 @@ class goal_box extends goal_shell {
 		}
 		// check for box.json file
 		$pwd = Paths::pwd();
+		if (empty($pwd)) {
+			fail ('Failed to get pwd!');
+			exit(1);
+		}
 		$pathConfig = "{$pwd}/box.json";
 		if (!\file_exists($pathConfig)) {
 			fail ("box.json file not found in workspace! {$pathConfig}");

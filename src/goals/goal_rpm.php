@@ -37,6 +37,10 @@ class goal_rpm extends goal_shell {
 		}
 		// check for project.spec file
 		$pwd = Paths::pwd();
+		if (empty($pwd)) {
+			fail ('Failed to get pwd!');
+			exit(1);
+		}
 		if (!isset($this->args['Spec']) || empty($this->args['Spec'])) {
 			fail ('Spec file field not provided in xbuild.json config!');
 			exit(1);
