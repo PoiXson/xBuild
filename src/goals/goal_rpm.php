@@ -171,25 +171,29 @@ class goal_rpm extends goal_shell {
 //	fi
 		// build the rpm
 		$buildNumber = 'x';
-		$cmd = 'rpmbuild -bb '.
-				"--target {$arch} ".
-				"--define='_topdir {$pwd}/{$buildroot}' ".
-				"--define='_tmppath {$pwd}/{$buildroot}/tmp' ".
-				"--define='SOURCE_ROOT {$pwd}' ".
-				"--define='_rpmdir {$pwd}/target' ".
-				"--define='BUILD_NUMBER {$buildNumber}' ".
-				"{$pwd}/{$buildroot}/SPECS/{$specFile}";
+		$cmd = [
+				'rpmbuild -bb',
+				"--target {$arch}",
+				"--define='_topdir {$pwd}/{$buildroot}'",
+				"--define='_tmppath {$pwd}/{$buildroot}/tmp'",
+				"--define='SOURCE_ROOT {$pwd}'",
+				"--define='_rpmdir {$pwd}/target'",
+				"--define='BUILD_NUMBER {$buildNumber}'",
+				"{$pwd}/{$buildroot}/SPECS/{$specFile}"
+		];
 		if ($this->dry) {
-			echo " {$msgDry}{$cmd}\n";
+			$msg = \implode("\n {$msgDry}   ", $cmd);
+			echo " {$msgDry}{$msg}\n";
 		} else {
-			$result = $this->runShellCmd($cmd);
+			$result = $this->runShellCmd(
+					\implode(' ', $cmd)
+			);
 			if ($result != 0) {
-				fail ("Failed to build rpm! {$result} - {$cmd}");
+				$msg = \implode(' ', $cmd);
+				fail ("Failed to build rpm! {$result} - {$msg}");
 				exit(1);
 			}
 		}
-//		parent::run();
-//fail ('Sorry, this goal is unfinished!');
 	}
 
 
