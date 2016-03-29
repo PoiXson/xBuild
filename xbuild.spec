@@ -8,7 +8,7 @@ Requires        : php >= 5.6
 Requires        : shellscripts >= 1.4.3
 Requires        : bash, wget, screen, zip, unzip, grep, tree, dos2unix
 Requires        : usr/sbin/useradd, /usr/bin/getent
-Suggests        : gradle, maven2, composer, rpm-build
+#Requires        : gradle, maven2, composer, rpm-build
 Prefix          : %{_bindir}/%{name}
 %define _rpmfilename  %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm
 
