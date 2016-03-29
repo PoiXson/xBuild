@@ -21,6 +21,14 @@ class config_xbuild extends config_abstract {
 	const KEY_VERSION_FILES = 'Version Files';
 	const KEY_GOALS         = 'Goals';
 
+	protected $configGlobal;
+
+
+
+	public function __construct($configGlobal) {
+		parent::__construct();
+		$this->configGlobal = $configGlobal;
+	}
 	protected $goals = NULL;
 
 

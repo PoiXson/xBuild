@@ -1,0 +1,30 @@
+{
+	"Goals": {
+		"build": {
+			"Type": "group"
+		},
+		"release": {
+			"Type": "group",
+			"0": "clean",
+			"1": "git-pull"
+		},
+		"clean": {
+		},
+		"git-pull": {
+			"Type": "git",
+			"0": "git pull"
+		},
+		"composer-install": {
+			"Type": "composer",
+			"0": "composer install -a --profile",
+			"1": "composer show -t --profile"
+		},
+		"composer-update": {
+			"Type": "composer",
+			"0": "composer update --profile"
+		},
+		"deploy": {
+			"Files": []
+		}
+	}
+}

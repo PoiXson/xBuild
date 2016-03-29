@@ -19,6 +19,7 @@ class Builder {
 
 	public $configBuild;
 	public $configDeploy;
+	public $configGlobal;
 	public $buildNumber;
 	public $dry = NULL;
 	public $runGoals;
@@ -26,10 +27,12 @@ class Builder {
 
 
 
-	public function __construct($configBuild, $configDeploy,
+	public function __construct(
+			$configBuild, $configDeploy, $configGlobal,
 			$buildNumber, $runGoals=NULL) {
 		$this->configBuild  = $configBuild;
 		$this->configDeploy = $configDeploy;
+		$this->configGlobal = $configGlobal;
 		$this->buildNumber  = $buildNumber;
 		$this->runGoals     = $runGoals;
 	}

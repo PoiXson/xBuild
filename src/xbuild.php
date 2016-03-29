@@ -12,6 +12,7 @@ namespace pxn\xBuild;
 
 use pxn\xBuild\configs\config_xbuild;
 use pxn\xBuild\configs\config_xdeploy;
+use pxn\xBuild\configs\config_global;
 
 use pxn\phpUtils\Strings;
 use pxn\phpUtils\Config;
@@ -21,6 +22,7 @@ use pxn\phpUtils\Config;
 // defines
 const BUILD_CONFIG_FILE  = 'xbuild.json';
 const DEPLOY_CONFIG_FILE = 'xdeploy.json';
+const GLOBAL_CONFIG_FILE = 'global.json';
 
 
 
@@ -168,6 +170,22 @@ echo "\n\n";
 
 
 
+// load global config
+$configGlobal = NULL;
+{
+	$file = GLOBAL_CONFIG_FILE;
+	if (! \file_exists($file) ) {
+		fail ("Config file not found: {$file}");
+		exit(1);
+	}
+	$configGlobal = new config_global();
+	if ( ! $configGlobal->LoadFile($file) ) {
+		fail ("Failed to load config file: {$file}");
+		exit(1);
+	}
+	// pre-load goals
+	$configGlobal->getGoals();
+}
 // load build config
 $configBuild = NULL;
 {
@@ -176,7 +194,7 @@ $configBuild = NULL;
 		fail ("Config file not found: {$file}");
 		exit(1);
 	}
-	$configBuild = new config_xbuild();
+	$configBuild = new config_xbuild($configGlobal);
 	if ( ! $configBuild->LoadFile($file) ) {
 		fail ("Failed to load config file: {$file}");
 		exit(1);
@@ -203,6 +221,7 @@ $configDeploy = NULL;
 $builder = new Builder(
 	$configBuild,
 	$configDeploy,
+	$configGlobal,
 	$buildNumber
 );
 $builder->BuildNumber = $buildNumber;
