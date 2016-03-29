@@ -26,9 +26,17 @@ class goal_maven extends Goal {
 
 
 	public function run() {
-		$path = self::MAVEN_PATH;
-		if (!\file_exists($path)) {
-			fail ("Maven not found! {$path}");
+		$pathTool = self::MAVEN_PATH;
+		// check for tools
+		if (!\file_exists($pathTool)) {
+			fail ("Maven not found! {$pathTool}");
+			exit(1);
+		}
+		// check for pom.xml file
+		$pwd = Paths::pwd();
+		$pathConfig = "{$pwd}/pom.xml";
+		if (!\file_exists($pathConfig)) {
+			fail ("pom.xml file not found in workspace! {$pathConfig}");
 			exit(1);
 		}
 //		parent::run();

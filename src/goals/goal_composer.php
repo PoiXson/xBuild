@@ -9,6 +9,8 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Paths;
+
 
 class goal_composer extends goal_shell {
 
@@ -28,9 +30,17 @@ class goal_composer extends goal_shell {
 
 
 	public function run() {
-		$path = self::COMPOSER_PATH;
-		if (!\file_exists($path)) {
-			fail ("Composer not found! {$path}");
+		$pathTool = self::COMPOSER_PATH;
+		// check for tools
+		if (!\file_exists($pathTool)) {
+			fail ("Composer not found! {$pathTool}");
+			exit(1);
+		}
+		// check for composer.json file
+		$pwd = Paths::pwd();
+		$pathConfig = "{$pwd}/composer.json";
+		if (!\file_exists($pathConfig)) {
+			fail ("composer.json file not found in workspace! {$pathConfig}");
 			exit(1);
 		}
 		parent::run();

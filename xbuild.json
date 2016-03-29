@@ -18,7 +18,8 @@
 			"4": "deploy"
 		},
 		"rpm": {
-			"Arch": "noarch"
+			"Arch": "noarch",
+			"Spec": "xbuild.spec"
 		},
 		"deploy": {
 			"Files": [

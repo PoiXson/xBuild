@@ -9,6 +9,9 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Strings;
+use pxn\phpUtils\Paths;
+
 
 class goal_rpm extends Goal {
 
@@ -26,9 +29,26 @@ class goal_rpm extends Goal {
 
 
 	public function run() {
-		$path = self::RPMBUILD_PATH;
-		if (!\file_exists($path)) {
-			fail ("RPM-Build not found! {$path}");
+		$pathTool = self::RPMBUILD_PATH;
+		// check for tools
+		if (!\file_exists($pathTool)) {
+			fail ("RPM-Build not found! {$pathTool}");
+			exit(1);
+		}
+		// check for project.spec file
+		$pwd = Paths::pwd();
+		if (!isset($this->args['Spec']) || empty($this->args['Spec'])) {
+			fail ('Spec file field not provided in xbuild.json config!');
+			exit(1);
+		}
+		$specFile = $this->args['Spec'];
+		$pathConfig = "{$pwd}/{$specFile}";
+		$pathConfig = Strings::ForceEndsWith(
+				"{$pwd}/{$specFile}",
+				'.spec'
+		);
+		if (!\file_exists($pathConfig)) {
+			fail ("{$specFile} file not found in workspace! {$pathConfig}");
 			exit(1);
 		}
 //		parent::run();

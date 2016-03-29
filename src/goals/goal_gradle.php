@@ -9,6 +9,8 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Paths;
+
 
 class goal_gradle extends Goal {
 
@@ -26,9 +28,17 @@ class goal_gradle extends Goal {
 
 
 	public function run() {
-		$path = self::GRADLE_PATH;
-		if (!\file_exists($path)) {
-			fail ("Gradle not found! {$path}");
+		$pathTool = self::GRADLE_PATH;
+		// check for tools
+		if (!\file_exists($pathTool)) {
+			fail ("Gradle not found! {$pathTool}");
+			exit(1);
+		}
+		// check for build.gradle file
+		$pwd = Paths::pwd();
+		$pathConfig = "{$pwd}/build.gradle";
+		if (!\file_exists($pathConfig)) {
+			fail ("build.gradle file not found in workspace! {$pathConfig}");
 			exit(1);
 		}
 //		parent::run();

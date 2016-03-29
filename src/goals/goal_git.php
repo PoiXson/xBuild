@@ -23,9 +23,10 @@ class goal_git extends goal_shell {
 
 
 	public function run() {
-		$path = self::GIT_PATH;
-		if (!\file_exists($path)) {
-			fail ("Git not found! {$path}");
+		$pathTool = self::GIT_PATH;
+		// check for tools
+		if (!\file_exists($pathTool)) {
+			fail ("Git not found! {$pathTool}");
 			exit(1);
 		}
 		parent::run();
