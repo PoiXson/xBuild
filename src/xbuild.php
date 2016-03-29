@@ -200,7 +200,7 @@ $configBuild = NULL;
 		exit(1);
 	}
 	// pre-load goals
-	$configBuild->loadGoals();
+	$configBuild->getGoals();
 }
 // load deploy config
 $configDeploy = NULL;
@@ -213,6 +213,13 @@ $configDeploy = NULL;
 			exit(1);
 		}
 	}
+}
+{
+	$countGlobal  = \count($configGlobal->goals);
+	$countProject = \count($configBuild->goals);
+	$countTotal   = \count($configBuild->getGoals());
+	echo "Found [ {$countGlobal} ] global goals and [ {$countProject} ] project goals, [ {$countTotal} ] in total.\n";
+//TODO: list global/project/override goals in debug mode
 }
 
 

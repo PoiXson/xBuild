@@ -9,17 +9,15 @@
  */
 namespace pxn\xBuild\configs;
 
-use pxn\phpUtils\San;
-use pxn\xBuild\goals\Goal;
-
 
 class config_xbuild extends config_abstract {
-	use config_goals;
+	use config_goals {
+		config_goals::getGoals as getGoalsParent;
+	}
 
 	const KEY_NAME          = 'Name';
 	const KEY_VERSION       = 'Version';
 	const KEY_VERSION_FILES = 'Version Files';
-	const KEY_GOALS         = 'Goals';
 
 	protected $configGlobal;
 
@@ -29,7 +27,6 @@ class config_xbuild extends config_abstract {
 		parent::__construct();
 		$this->configGlobal = $configGlobal;
 	}
-	protected $goals = NULL;
 
 
 
@@ -79,7 +76,7 @@ class config_xbuild extends config_abstract {
 
 
 	public function getGoals() {
-		$goals = $this->goals;
+		$goals = $this->getGoalsParent();
 		foreach($this->configGlobal->goals as $key => $val) {
 			if (!isset($goals[$key])) {
 				$goals[$key] = $val;
