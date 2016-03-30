@@ -50,8 +50,10 @@ class Builder {
 			$msgCount = \count($this->runGoals);
 			$msgS     = ($msgCount > 1 ? 's' : '');
 			$msgDefault = '';
-			if ($this->usingDefaultGoals == UsingDefaultGoalsEnum::USING_DEFINED_GOALS) {
+			if ($this->usingDefaultGoals != UsingDefaultGoalsEnum::USING_DEFINED_GOALS) {
 				$msgDefault = 'default ';
+			} else {
+				$msgDefault = 'specific ';
 			}
 			echo "\n";
 			Goal::title("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
