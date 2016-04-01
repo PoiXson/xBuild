@@ -17,6 +17,10 @@ use pxn\xBuild\configs\config_global;
 use pxn\phpUtils\Strings;
 use pxn\phpUtils\Config;
 
+use pxn\phpUtils\xLogger\xLog;
+use pxn\phpUtils\xLogger\formatters\FullFormat;
+use pxn\phpUtils\xLogger\handlers\ShellHandler;
+
 
 
 // defines
@@ -168,7 +172,24 @@ for ($i=1; $i<count($argv); $i++) {
 
 
 DisplayLogo();
-echo "\n\n";
+
+
+
+// init logger
+{
+	$log = xLog::getRoot();
+	$log->setFormatter(
+			new FullFormat()
+	);
+//	$log->setFormatter(
+//			(new BasicFormatter())
+//			->setPrefix(' <<xBuild>>')
+//	);
+	$log->setHandler(
+			new ShellHandler()
+	);
+	xLog::HandleBuffer();
+}
 
 
 
@@ -225,7 +246,7 @@ $configDeploy = NULL;
 	$countGlobal  = \count($configGlobal->goals);
 	$countProject = \count($configBuild->goals);
 	$countTotal   = \count($configBuild->getGoals());
-	echo "Found [ {$countGlobal} ] global goals and [ {$countProject} ] project goals, [ {$countTotal} ] in total.\n";
+	$log->info("Found [ {$countGlobal} ] global goals and [ {$countProject} ] project goals, [ {$countTotal} ] in total.");
 //TODO: list global/project/override goals in debug mode
 }
 

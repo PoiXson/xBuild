@@ -14,6 +14,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 use pxn\phpUtils\Strings;
 
+use pxn\phpUtils\xLogger\xLog;
+
 
 trait GoalShell {
 
@@ -28,6 +30,7 @@ trait GoalShell {
 			fail ('Invalid args argument provided to runShellHex() function!');
 			exit(1);
 		}
+		$log = $this->getLogger();
 		$result = 0;
 		$index  = 0;
 		$countSuccess = 0;
@@ -48,11 +51,11 @@ trait GoalShell {
 				continue;
 			}
 			$msgDry = ($this->dry ? '##DRY## ' : '');
-			echo " {$msgDry}[ CMD {$hexIndex} ] {$cmd}\n";
-//			echo " CMD [ {$hexIndex} ] {$cmd}\n";
+			$log->info("{$msgDry}[ CMD {$hexIndex} ] {$cmd}");
+//			$log->info("CMD [ {$hexIndex} ] {$cmd}");
 			if ($this->dry) {
-//				echo " ### Dry run, command skipped ### \n";
-				echo "  ...  ... \n";
+//				$log->info("### Dry run, command skipped ### ");
+				$log->info(' ...  ... ');
 			} else {
 				$result = $this->runShellCmd($cmd);
 				if ($result != 0) {
@@ -61,7 +64,7 @@ trait GoalShell {
 				}
 			}
 			$countSuccess++;
-			echo "\n";
+			$log->out();
 			// max reached
 			if ($countSuccess >= $MaxCommands) {
 				$hexIndex = \dechex($index + 1);
@@ -70,20 +73,21 @@ trait GoalShell {
 					fail ('Error!!! Reached max allowable commands, but more haven\'t been run!');
 					exit(1);
 				} else {
-					echo "Reached max allowable commands.\n";
+					$log->warning('Reached max allowable commands.');
 				}
 				// finished
 				break;
 			}
 		}
 		$msgS = ($countSuccess > 1 ? 's' : '');
-		echo " Finished [ {$countSuccess} ] command{$msgS}!\n";
+		$log->info("Finished [ {$countSuccess} ] command{$msgS}!");
 		return $result;
 	}
 	protected function runShellCmd($cmd) {
 		if (Strings::StartsWith($cmd, '#')) {
 			return 0;
 		}
+		$log = $this->getLogger();
 		$this->process = NULL;
 		$this->pid     = NULL;
 		$this->result  = NULL;
@@ -93,8 +97,8 @@ trait GoalShell {
 		$this->process->setIdleTimeout(60); // 1 minute idle
 		$this->process->start();
 		$this->pid = $this->process->getPid();
-		echo " PID: {$this->pid}\n";
-		echo "\n";
+		$log->info("PID: {$this->pid}");
+		$log->out();
 		// wait for finish
 		$this->result = $this->process->wait(
 			function ($type, $buffer) {
@@ -106,19 +110,19 @@ trait GoalShell {
 				if ($type === Process::ERR) {
 					foreach ($lines as $line) {
 						if (empty($line)) continue;
-						echo "ERR> {$line}\n";
+						$log->err("ERR> {$line}");
 					}
 				// std out
 				} else {
 					foreach ($lines as $line) {
 						if (empty($line)) continue;
-						echo "OUT> {$line}\n";
+						$log->out("OUT> {$line}");
 					}
 				}
 			}
 		);
 		if ($this->result !== 0) {
-			echo " EXIT CODE: {$this->result}\n";
+			$log->info("EXIT CODE: {$this->result}");
 		}
 		$this->pid = NULL;
 		// fail
@@ -129,6 +133,12 @@ trait GoalShell {
 			throw new ProcessFailedException($process);
 		}
 		return $this->result;
+	}
+
+
+
+	public function getLogger() {
+		return xLog::get();
 	}
 
 
