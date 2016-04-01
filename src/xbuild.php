@@ -204,7 +204,7 @@ DisplayLogo();
 $configGlobal = NULL;
 {
 	$file = GLOBAL_CONFIG_FILE;
-	if (! \file_exists($file) ) {
+	if ( ! \file_exists($file) ) {
 		fail ("Config file not found: {$file}");
 		exit(1);
 	}
@@ -220,7 +220,7 @@ $configGlobal = NULL;
 $configBuild = NULL;
 {
 	$file = BUILD_CONFIG_FILE;
-	if (! \file_exists($file)) {
+	if ( ! \file_exists($file)) {
 		fail ("Config file not found: {$file}");
 		exit(1);
 	}
@@ -239,7 +239,7 @@ $configDeploy = NULL;
 	if (\file_exists($file)) {
 		$configDeploy = new config_xdeploy();
 		if ( ! $configDeploy->LoadFile($file) ) {
-			echo "Failed to load config file: {$file}\n";
+			fail ("Failed to load config file: {$file}");
 			exit(1);
 		}
 	}
