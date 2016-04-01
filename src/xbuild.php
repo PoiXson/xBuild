@@ -18,6 +18,7 @@ use pxn\phpUtils\Strings;
 use pxn\phpUtils\Config;
 
 use pxn\phpUtils\xLogger\xLog;
+use pxn\phpUtils\xLogger\xLevel;
 use pxn\phpUtils\xLogger\formatters\FullFormat;
 use pxn\phpUtils\xLogger\handlers\ShellHandler;
 
@@ -178,6 +179,7 @@ DisplayLogo();
 // init logger
 {
 	$log = xLog::getRoot();
+	$log->setLevel(xLevel::ALL);
 	$log->setFormatter(
 			new FullFormat()
 	);
