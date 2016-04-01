@@ -54,13 +54,6 @@ const GLOBAL_CONFIG_FILE = 'global.json';
 		exit(1);
 	}
 }
-{
-	$path = __DIR__.'/../../phpUtils/vendor/autoload.php';
-	if (\file_exists($path)) {
-		echo "\n *** Using local development copy of phpUtils! *** \n\n";
-		require($path);
-	}
-}
 
 
 
@@ -144,6 +137,13 @@ for ($i=1; $i<count($argv); $i++) {
 	case '--max-wait':
 //TODO:
 		break;
+	case '--use-local-phputils': {
+		$path = __DIR__.'/../../phpUtils/vendor/autoload.php';
+		if (\file_exists($path)) {
+			echo "\n *** Using local development copy of phpUtils! *** \n\n";
+			require($path);
+		}
+	}
 	case '-d':
 	case '--debug':
 //TODO:
