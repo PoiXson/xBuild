@@ -11,6 +11,8 @@ namespace pxn\xBuild;
 
 use pxn\xBuild\goals\Goal;
 
+use pxn\phpUtils\xLogger\xLog;
+
 
 class Builder {
 
@@ -41,6 +43,7 @@ class Builder {
 
 	// run the goals
 	public function run($run=NULL) {
+		$log = xLog::getRoot();
 		// override run goals
 		if (\is_array($run) && !empty($run)) {
 			$this->runGoals = $run;
@@ -56,7 +59,7 @@ class Builder {
 				$msgDefault = 'specific ';
 			}
 			echo "\n";
-			Goal::title("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
+			$log->get('GOAL: ')->info("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
 		}
 		return $this->doRun();
 	}

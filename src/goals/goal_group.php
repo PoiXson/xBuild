@@ -23,6 +23,7 @@ class goal_group extends Goal {
 
 
 	public function run() {
+		$log = $this->getLogger();
 		$result = 0;
 		for ($index = 0; $index < self::MAX_GOALS; $index++) {
 			// hex step index
@@ -37,7 +38,7 @@ class goal_group extends Goal {
 			$run = $this->args[$hexIndex];
 			if (empty($run))
 				continue;
-			echo " [ GRP {$hexIndex} ] {$run}\n";
+			$log->info("[ GRP {$hexIndex} ] {$run}");
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {
 				fail ("Goal not found by group! {$run}");

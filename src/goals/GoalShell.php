@@ -14,8 +14,6 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 use pxn\phpUtils\Strings;
 
-use pxn\phpUtils\xLogger\xLog;
-
 
 trait GoalShell {
 
@@ -138,7 +136,7 @@ trait GoalShell {
 
 
 	public function getLogger() {
-		return xLog::get();
+		return parent::getLogger();
 	}
 
 

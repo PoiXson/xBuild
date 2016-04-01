@@ -13,6 +13,8 @@ use pxn\phpUtils\Defines;
 use pxn\phpUtils\Paths;
 use pxn\phpUtils\San;
 
+use pxn\phpUtils\xLogger\xLog;
+
 
 abstract class Goal {
 
@@ -133,6 +135,14 @@ abstract class Goal {
 		$this->displayTitle();
 		echo "\n";
 		return $this->run();
+	}
+
+
+
+	public function getLogger() {
+		return xLog::get(
+				$this->getType()
+		);
 	}
 
 
