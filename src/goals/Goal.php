@@ -55,7 +55,9 @@ abstract class Goal {
 		}
 		// sanitize name/type values
 		$name = San::AlphaNumSafe($name);
-		$type = San::AlphaNum($type);
+		$type = San::AlphaNumSafe(
+				\str_replace('-', '_', $type)
+		);
 		if (empty($name)) {
 			fail ('Invalid name argument!');
 			exit(1);
@@ -134,7 +136,7 @@ abstract class Goal {
 	public abstract function run();
 	public function triggerRun($dry=NULL) {
 		if ($dry !== NULL) {
-			$this->dry = ($dry == TRUE);
+			$this->dry = ($dry != FALSE);
 		}
 		$name   = $this->getName();
 		$type   = $this->getType();

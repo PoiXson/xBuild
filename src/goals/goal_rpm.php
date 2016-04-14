@@ -106,7 +106,7 @@ class goal_rpm extends goal_shell {
 //				$log->publish(" {$msgDry}mkdir '{$path}'");
 			} else {
 				$result = \mkdir($path, 0775);
-				if (!$result) {
+				if ($result == FALSE) {
 					fail ("Failed to create directory {$path}");
 					exit(1);
 				}
@@ -129,7 +129,7 @@ class goal_rpm extends goal_shell {
 //					$log->publish(" {$msgDry}mkdir '{$path}'");
 				} else {
 					$result = \mkdir($path, 0775);
-					if (!$result) {
+					if ($result == FALSE) {
 						fail ("Failed to create directory {$path}");
 						exit(1);
 					}

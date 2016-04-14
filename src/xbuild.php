@@ -204,6 +204,7 @@ DisplayLogo();
 $configGlobal = NULL;
 {
 	$file = GLOBAL_CONFIG_FILE;
+//TODO:
 	if ( ! \file_exists($file) ) {
 		fail ("Config file not found: {$file}");
 		exit(1);

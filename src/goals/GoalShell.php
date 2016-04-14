@@ -49,11 +49,11 @@ trait GoalShell {
 				continue;
 			}
 			$msgDry = ($this->isDry() ? '##DRY## ' : '');
-			$log->info("{$msgDry}[ CMD {$hexIndex} ] {$cmd}");
+			$log->publish("{$msgDry}[ CMD {$hexIndex} ] {$cmd}");
 //			$log->info("CMD [ {$hexIndex} ] {$cmd}");
 			if ($this->dry) {
-//				$log->info("### Dry run, command skipped ### ");
-				$log->info(' ...  ... ');
+//				$log->publish("### Dry run, command skipped ### ");
+				$log->publish(' ...  ... ');
 			} else {
 				$result = $this->runShellCmd($cmd);
 				if ($result != 0) {
@@ -120,7 +120,7 @@ trait GoalShell {
 			}
 		);
 		if ($this->result !== 0) {
-			$log->info("EXIT CODE: {$this->result}");
+			$log->warning("EXIT CODE: {$this->result}");
 		}
 		$this->pid = NULL;
 		// fail
