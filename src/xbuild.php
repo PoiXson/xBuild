@@ -139,10 +139,12 @@ for ($i=1; $i<count($argv); $i++) {
 		break;
 	case '--use-local-phputils': {
 		$path = __DIR__.'/../../phpUtils/vendor/autoload.php';
-		if (\file_exists($path)) {
-			echo "\n *** Using local development copy of phpUtils! *** \n\n";
-			require($path);
+		echo "\n *** Using local development copy of phpUtils! *** \n\n";
+		if (!\file_exists($path)) {
+			echo "Local copy of phpUtils couldn't be found: {$path}\n";
+			exit(1);
 		}
+		require($path);
 	}
 	case '-d':
 	case '--debug':
