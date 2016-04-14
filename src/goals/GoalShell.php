@@ -48,7 +48,7 @@ trait GoalShell {
 			if (Strings::StartsWith($cmd, '#')) {
 				continue;
 			}
-			$msgDry = ($this->dry ? '##DRY## ' : '');
+			$msgDry = ($this->isDry() ? '##DRY## ' : '');
 			$log->info("{$msgDry}[ CMD {$hexIndex} ] {$cmd}");
 //			$log->info("CMD [ {$hexIndex} ] {$cmd}");
 			if ($this->dry) {

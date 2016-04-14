@@ -98,6 +98,12 @@ abstract class Goal {
 
 
 
+	public function isDry() {
+		return ($this->dry === TRUE);
+	}
+
+
+
 	public function getName() {
 		return $this->name;
 	}

@@ -30,7 +30,6 @@ class goal_rpm extends goal_shell {
 
 
 	public function run() {
-		$msgDry = ($this->dry ? '##DRY## ' : '');
 		$pathTool  = self::RPMBUILD_PATH;
 		$buildroot = self::BUILD_ROOT;
 		// check for tools
@@ -48,6 +47,7 @@ class goal_rpm extends goal_shell {
 			fail ('Spec file field not provided in xbuild.json config!');
 			exit(1);
 		}
+		$msgDry = ($this->isDry() ? '##DRY## ' : '');
 		$log = $this->getLogger();
 		$specFile = $this->args['Spec'];
 		$pathConfig = "{$pwd}/{$specFile}";
@@ -71,7 +71,7 @@ class goal_rpm extends goal_shell {
 			if (\is_dir($path)) {
 				$log->info("Removing old dir.. {$buildroot}/");
 				$cmd = "rm -Rvf --preserve-root '{$path}'";
-				if ($this->dry) {
+				if ($this->isDry()) {
 //					$log->publish(" {$msgDry}{$cmd}");
 				} else {
 					$result = $this->runShellCmd($cmd);
@@ -102,7 +102,7 @@ class goal_rpm extends goal_shell {
 		{
 			$path = "{$pwd}/{$buildroot}/";
 			$log->info("Creating dir.. {$buildroot}/");
-			if ($this->dry) {
+			if ($this->isDry()) {
 //				$log->publish(" {$msgDry}mkdir '{$path}'");
 			} else {
 				$result = \mkdir($path, 0775);
@@ -125,7 +125,7 @@ class goal_rpm extends goal_shell {
 			foreach ($dirs as $dir) {
 				$path = "{$pwd}/{$buildroot}/{$dir}/";
 				$log->info("Creating dir.. {$dir}/");
-				if ($this->dry) {
+				if ($this->isDry()) {
 //					$log->publish(" {$msgDry}mkdir '{$path}'");
 				} else {
 					$result = \mkdir($path, 0775);
