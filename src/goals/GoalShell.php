@@ -62,7 +62,7 @@ trait GoalShell {
 				}
 			}
 			$countSuccess++;
-			$log->out();
+			$log->publish();
 			// max reached
 			if ($countSuccess >= $MaxCommands) {
 				$hexIndex = \dechex($index + 1);
@@ -96,7 +96,7 @@ trait GoalShell {
 		$this->process->start();
 		$this->pid = $this->process->getPid();
 		$log->info("PID: {$this->pid}");
-		$log->out();
+		$log->publish();
 		// wait for finish
 		$this->result = $this->process->wait(
 			function ($type, $buffer) {

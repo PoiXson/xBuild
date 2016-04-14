@@ -48,6 +48,7 @@ class goal_rpm extends goal_shell {
 			fail ('Spec file field not provided in xbuild.json config!');
 			exit(1);
 		}
+		$log = $this->getLogger();
 		$specFile = $this->args['Spec'];
 		$pathConfig = "{$pwd}/{$specFile}";
 		$pathConfig = Strings::ForceEndsWith(
@@ -62,47 +63,47 @@ class goal_rpm extends goal_shell {
 		$arch = $this->args['Arch'];
 		if (empty($arch)) {
 			$arch = 'noarch';
-			echo "Defaulting to noarch..\n";
+			$log->info('Defaulting to noarch..');
 		}
 		// remove old build files
 		{
 			$path = "{$pwd}/{$buildroot}/";
 			if (\is_dir($path)) {
-				echo " Removing old dir.. {$buildroot}/\n";
+				$log->info("Removing old dir.. {$buildroot}/");
 				$cmd = "rm -Rvf --preserve-root '{$path}'";
 				if ($this->dry) {
-//					echo " {$msgDry}{$cmd}";
+//					$log->publish(" {$msgDry}{$cmd}");
 				} else {
 					$result = $this->runShellCmd($cmd);
 					if ($result != 0) {
 						fail ("Failed to remove old build dir! {$result} - {$buildroot}/");
 						exit(1);
 					}
-					echo "\n";
+					$log->publish();
 				}
 			}
 			$path = "{$pwd}/target/";
 			if (\is_dir($path)) {
-				echo " Removing old dir.. target/\n";
+				$log->info('Removing old dir.. target/');
 				$cmd = "rm -Rvf --preserve-root '{$path}'";
 				if ($this->dry) {
-//					echo " {$msgDry}{$cmd}";
+//					$log->publish(" {$msgDry}{$cmd}");
 				} else {
 					$result = $this->runShellCmd($cmd);
 					if ($result != 0) {
 						fail ("Failed to remove old build dir! {$result} - target/");
 						exit(1);
 					}
-					echo "\n";
+					$log->publish();
 				}
 			}
 		}
 		// create build space
 		{
 			$path = "{$pwd}/{$buildroot}/";
-			echo " Creating dir.. {$buildroot}/\n";
+			$log->info("Creating dir.. {$buildroot}/");
 			if ($this->dry) {
-//				echo " {$msgDry}mkdir '{$path}'\n";
+//				$log->publish(" {$msgDry}mkdir '{$path}'");
 			} else {
 				$result = \mkdir($path, 0775);
 				if (!$result) {
@@ -123,9 +124,9 @@ class goal_rpm extends goal_shell {
 			];
 			foreach ($dirs as $dir) {
 				$path = "{$pwd}/{$buildroot}/{$dir}/";
-				echo " Creating dir.. {$dir}/\n";
+				$log->info("Creating dir.. {$dir}/");
 				if ($this->dry) {
-//					echo " {$msgDry}mkdir '{$path}'\n";
+//					$log->publish(" {$msgDry}mkdir '{$path}'");
 				} else {
 					$result = \mkdir($path, 0775);
 					if (!$result) {
@@ -135,12 +136,12 @@ class goal_rpm extends goal_shell {
 				}
 			}
 		}
-		echo "\n";
+		$log->publish();
 		// copy spec file
 		{
-			echo " Copying spec file.. {$specFile}\n";
+			$log->info("Copying spec file.. {$specFile}");
 			if ($this->dry) {
-//				echo " {msgDry}copy '{$pwd}/{$specFile}' '{$pwd}/{$buildroot}/SPECS/'\n";
+//				$log->publish(" {msgDry}copy '{$pwd}/{$specFile}' '{$pwd}/{$buildroot}/SPECS/'");
 			} else {
 				$result = \copy(
 					"{$pwd}/{$specFile}",
@@ -152,7 +153,7 @@ class goal_rpm extends goal_shell {
 				}
 			}
 		}
-		echo "\n";
+		$log->publish();
 //TODO: download source files
 //	# download source files
 //	if [ ! -z $RPM_SOURCES ]; then
@@ -187,7 +188,7 @@ class goal_rpm extends goal_shell {
 		];
 		if ($this->dry) {
 			$msg = \implode("\n {$msgDry}   ", $cmd);
-			echo " {$msgDry}{$msg}\n";
+			$log->publish(" {$msgDry}{$msg}");
 		} else {
 			$result = $this->runShellCmd(
 					\implode(' ', $cmd)

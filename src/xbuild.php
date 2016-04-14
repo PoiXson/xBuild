@@ -245,6 +245,7 @@ $configDeploy = NULL;
 	}
 }
 {
+	$log = xLog::getRoot();
 	$countGlobal  = \count($configGlobal->goals);
 	$countProject = \count($configBuild->goals);
 	$countTotal   = \count($configBuild->getGoals());
@@ -288,5 +289,10 @@ $builder->run($runGoals);
 
 
 
-echo "\nFinished!\n\n";
+{
+	$log = xLog::getRoot();
+	$log->publish();
+	$log->publish('Finished!');
+	$log->publish();
+}
 exit(0);

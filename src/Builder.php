@@ -58,7 +58,7 @@ class Builder {
 			} else {
 				$msgDefault = 'specific ';
 			}
-			echo "\n";
+			$log->publish();
 			$log->get('GOAL: ')->info("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
 		}
 		return $this->doRun();

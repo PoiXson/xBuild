@@ -119,7 +119,8 @@ abstract class Goal {
 
 
 	public static function title($msg) {
-		echo " [[ {$msg} ]] \n";
+		xLog::getRoot()
+				->publish(" [[ {$msg} ]] ");
 	}
 
 
@@ -133,7 +134,8 @@ abstract class Goal {
 		$type   = $this->getType();
 		$prefix = $this->getTitlePrefix();
 		$this->displayTitle();
-		echo "\n";
+		$this->getLogger()
+				->publish();
 		return $this->run();
 	}
 

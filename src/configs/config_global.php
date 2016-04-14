@@ -77,7 +77,7 @@ class config_global extends config_abstract {
 //			}
 //			$count++;
 //		}
-//		echo "Found [ {$count} ] goals in config\n";
+//		$log->info("Found [ {$count} ] goals in config");
 //		$this->goals = $goals;
 //		return $goals;
 //	}
