@@ -150,7 +150,7 @@ abstract class Goal {
 
 
 	public function getLogger() {
-		return xLog::get(
+		return xLog::getRoot(
 				$this->getType()
 		);
 	}
