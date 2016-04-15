@@ -5,17 +5,26 @@
 		"xbuild.spec"
 	],
 	"Goals": {
+		"workspace": {
+			"Type": "group",
+			"0": "clean",
+			"1": "git-pull",
+			"2": "eclipse-php"
+		},
 		"build": {
 			"Type": "group",
-			"0": "composer-update"
+			"0": "composer-update",
+			"1": "zip",
+			"2": "rpm"
 		},
 		"release": {
 			"Type": "group",
 			"0": "clean",
 			"1": "git-pull",
 			"2": "composer-install",
-			"3": "rpm",
-			"4": "deploy"
+			"3": "zip",
+			"4": "rpm",
+			"5": "deploy"
 		},
 		"rpm": {
 			"Arch": "noarch",
