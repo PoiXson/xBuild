@@ -1,4 +1,4 @@
 #!/bin/sh
 
-php src/xbuild.php $@
+/usr/bin/php `dirname "$0"`/src/xbuild.php $@
 
