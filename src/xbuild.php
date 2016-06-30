@@ -31,29 +31,11 @@ const GLOBAL_CONFIG_FILE = 'global.json';
 
 
 
-// find autoloader.php
-{
-	$SearchPaths = [
-//		__DIR__.'/../../phpUtils',
-		__DIR__,
-		__DIR__.'/..',
-	];
-	$found = FALSE;
-	foreach ($SearchPaths as $path) {
-		if (empty($path)) continue;
-		$path = \realpath($path.'/vendor/');
-		if (empty($path)) continue;
-		if (\file_exists($path.'/autoload.php')) {
-			require($path.'/autoload.php');
-			$found = TRUE;
-			break;
-		}
-	}
-	if (!$found) {
-		echo "\nFailed to find composer autoload.php !\n\n";
-		exit(1);
-	}
+if (!\file_exists(__DIR__.'/../pxnloader.php')) {
+	echo "\n<h2>File not found: pxnloader.php, run <i>composer update</i></h2>\n";
+	exit(1);
 }
+require(__DIR__.'/../pxnloader.php');
 
 
 
