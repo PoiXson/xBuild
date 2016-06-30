@@ -15,7 +15,7 @@ use pxn\xBuild\configs\config_xdeploy;
 use pxn\xBuild\configs\config_global;
 
 use pxn\phpUtils\Strings;
-use pxn\phpUtils\Config;
+use pxn\phpUtils\System;
 
 use pxn\phpUtils\xLogger\xLog;
 use pxn\phpUtils\xLogger\xLevel;
@@ -40,10 +40,10 @@ require(__DIR__.'/../pxnloader.php');
 
 
 // check os
-\pxn\phpUtils\System::RequireLinux();
+System::RequireLinux();
 
 // require shell
-if (!Config::isShell()) {
+if (!System::isShell()) {
 	fail ('This script must be run locally as a shell script!');
 	exit(1);
 }
