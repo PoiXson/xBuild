@@ -1,5 +1,13 @@
+pxnloader.php
+.htdb*.php
 **/config.php
 **/auth.json
+.cache/
+.*_cache/
+public/static/bootstrap
+public/static/jquery
+error_log
+**/error_log
 
 **/vendor/
 **/composer.phar
