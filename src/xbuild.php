@@ -16,6 +16,7 @@ use pxn\xBuild\configs\config_global;
 
 use pxn\phpUtils\Strings;
 use pxn\phpUtils\System;
+use pxn\phpUtils\ConsoleShell;
 
 use pxn\phpUtils\xLogger\xLog;
 use pxn\phpUtils\xLogger\xLevel;
@@ -50,6 +51,10 @@ if (!System::isShell()) {
 
 
 
+$NoLogo = NULL;
+if (ConsoleShell::hasFlag('--no-logo')) {
+	$NoLogo = TRUE;
+}
 function DisplayLogo() {
 	global $NoLogo;
 	if ($NoLogo !== FALSE)
@@ -66,97 +71,140 @@ function DisplayLogo() {
 
 
 
-function DisplayHelp() {
-	global $argv;
-	echo "Usage:\n";
-	echo "  {$argv[0]} [options] [goals]\n";
-	echo "\n";
-	echo "Goals:\n";
-	echo "  clean\n";
-	echo "  build\n";
-	echo "  deploy\n";
-	echo "\n";
-	echo "Options:\n";
-	echo "  -b, --build-number=n       Sets the build number\n";
-	echo "  -D, --deploy-config-depth  Number of parent directories to ascend\n";
-	echo "                             when searching for ".DEPLOY_CONFIG_FILE." config file\n";
-	echo "\n";
-	echo "  -w, --max-wait             Max wait time in seconds when another instance is busy\n";
-	echo "                             set to -1 for no timeout, or 0 to fail immediately\n";
-	echo "                             default: 300 (5 minutes)\n";
-	echo "\n";
-	echo "  -d, --debug                Debug mode, most verbose logging\n";
-	echo "  -t, --dry                  Dry run, without writing files\n";
-	echo "\n";
-	echo "  -h, --help                 Display this help message\n";
-	echo "  --no-logo                  Disables the startup logo\n";
-	echo "\n";
-	exit(0);
+// display help
+if (ConsoleShell::isHelp()) {
+	$help = new \pxn\phpUtils\ConsoleHelp(
+		NULL,
+		'goals',
+		TRUE,
+		TRUE
+	);
+	// goals
+	$help->addArgument(
+		'clean',
+		'Cleans the project workspace, removing all temporary files.',
+		TRUE, TRUE
+	);
+	$help->addArgument(
+		'build',
+		'Builds the project by calling the build sub-group.',
+		TRUE, TRUE
+	);
+	$help->addArgument(
+		'deploy',
+		'Deploys the files resulting from a build.',
+		TRUE, TRUE
+	);
+	// flags
+	$help->addFlag(
+		['-b', '--build-number'],
+		'Sets the build number.'
+	);
+	$help->addFlag(
+		['-t', '--dry'],
+		'Dry run, test without writing anything to the filesystem.'
+	);
+	$help->addFlag(
+		['-w', '--max-wait'],
+		[
+			'Max time to wait in seconds, when another instance is busy.',
+			'-1 for no timeout',
+			'0 to exit immediately',
+			'default: 300 (5 minutes)'
+		]
+	);
+	$help->addFlag(
+		['-D', '--deploy-config-depth'],
+		'Number of parent directories to ascend when searching for deploy config file.'
+	);
+	$help->addFlag(
+		'--no-logo',
+		'Disables the startup logo.'
+	);
+	$help->addFlag(
+		['-p', '--profile'],
+		'Display timing and memory usage information.'
+	);
+	$help->addFlag(
+		'--ansi',
+		'Force ANSI output.'
+	);
+	$help->addFlag(
+		'--no-ansi',
+		'Disable ANSI output.'
+	);
+	$help->addFlag(
+		['-q', '--quiet'],
+		'Do not output messages.'
+	);
+	$help->addFlag(
+		['-v', '--verbose'],
+		'Increase the verbosity of messages.'
+	);
+	$help->addFlag(
+		['-d', '--debug'],
+		'Debug mode, most verbose logging.'
+	);
+	$help->addFlag(
+		['-h', '--help'],
+		'Display this help message.'
+	);
+	$help->Display();
+	ExitNow(1);
 }
 
 
 
-$NoLogo = FALSE;
 $buildNumber = NULL;
-$dry = FALSE;
+$dry         = NULL;
+$profile     = NULL;
+$quiet       = NULL;
 $GoalArgs = array();
-for ($i=1; $i<count($argv); $i++) {
-	switch ($argv[$i]) {
-	case '-b':
-	case '--build-number':
-		$i++;
-		if (Numbers::isNumber($argv[$i])) {
-			$buildNumber = (int) $argv[$i];
-		} else {
-			$buildNumber = NULL;
-		}
-		break;
-	case '-D':
-	case '--deploy-config-depth':
-//TODO:
-		break;
-	case '-w':
-	case '--max-wait':
-//TODO:
-		break;
-	case '--use-local-phputils': {
-		$path = __DIR__.'/../../phpUtils/vendor/autoload.php';
-		echo "\n *** Using local development copy of phpUtils! *** \n\n";
-		if (!\file_exists($path)) {
-			echo "Local copy of phpUtils couldn't be found: {$path}\n";
-			exit(1);
-		}
-		require($path);
+
+
+
+// build number
+if (ConsoleShell::hasFlag('-b', '--build-number')) {
+	$val = ConsoleShell::getFlag('-b', '--build-number');
+	if (Numbers::isNumber($val)) {
+		$buildNumber = (int) $val;
 	}
-	case '-d':
-	case '--debug':
+}
+// dry run
+if (ConsoleShell::hasFlag('-t', '--dry')) {
+	$dry = TRUE;
+}
+// max wait time
 //TODO:
-		break;
-	case '-t':
-	case '--dry':
-		$dry = TRUE;
-		break;
-	case '-h':
-	case '--help':
-		DisplayLogo();
-		DisplayHelp();
-		exit(0);
-	case '--no-logo':
-		$NoLogo = TRUE;
-		break;
-	default:
-		if (Strings::StartsWith($argv[$i], '--')) {
-			echo "Unknown argument: {$argv[$i]}\n";
-			exit(1);
-		}
-		$GoalArgs[] = $argv[$i];
-		break;
-	}
+if (ConsoleShell::hasFlag('-w', '--max-wait')) {
+	fail(__FILE__.' - '.__LINE__.' IS UNFINISHED');
+}
+// search parent dirs
+//TODO:
+if (ConsoleShell::hasFlag('-D', '--deploy-config-depth')) {
+	fail(__FILE__.' - '.__LINE__.' IS UNFINISHED');
+}
+// display timing
+if (ConsoleShell::hasFlag('-p', '--profile')) {
+	$profile = TRUE;
+}
+// quiet - don't display messages
+if (ConsoleShell::hasFlag('-q', '--quiet')) {
+	$quiet = TRUE;
+}
+// verbose - display more messages
+//TODO:
+if (ConsoleShell::hasFlag('-v', '--verbose')) {
+	fail(__FILE__.' - '.__LINE__.' IS UNFINISHED');
+}
+// debug - display extra messages
+if (ConsoleShell::hasFlag('-d', '--debug')) {
+//TODO:
+	fail(__FILE__.' - '.__LINE__.' IS UNFINISHED');
 }
 
 
 
-DisplayLogo();
 
 
 
