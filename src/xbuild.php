@@ -28,7 +28,7 @@ use pxn\phpUtils\xLogger\handlers\ShellHandler;
 // defines
 const BUILD_CONFIG_FILE  = 'xbuild.json';
 const DEPLOY_CONFIG_FILE = 'xdeploy.json';
-const GLOBAL_CONFIG_FILE = 'global.json';
+const GLOBAL_CONFIG_FILE = 'xglobal.json';
 
 
 

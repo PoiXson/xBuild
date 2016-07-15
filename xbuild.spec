@@ -86,7 +86,7 @@ done
 		|| exit 1
 # configs
 for file in \
-	global.json                 \
+	xglobal.json                 \
 ; do
 	%{__install} -m 0644 \
 		"%{SOURCE_ROOT}/${file}" \
