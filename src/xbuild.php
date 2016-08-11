@@ -51,6 +51,11 @@ if (!System::isShell()) {
 
 
 
+// check user
+System::denySuperUser();
+
+
+
 $NoLogo = NULL;
 if (ConsoleShell::hasFlag('--no-logo')) {
 	$NoLogo = TRUE;
