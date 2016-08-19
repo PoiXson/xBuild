@@ -9,105 +9,18 @@
  */
 namespace pxn\xBuild;
 
-use pxn\xBuild\goals\Goal;
 
-use pxn\phpUtils\xLogger\xLog;
+class xBuilder extends \pxn\phpUtils\app\ShellApp {
 
-
-class Builder {
-
-	const DEFAULT_BUILD_GOALS  = [ 'build'   ];
-	const DEFAULT_DEPLOY_GOALS = [ 'release' ];
-
-	public $configBuild;
-	public $configDeploy;
-	public $configGlobal;
-	public $buildNumber;
-	public $dry = NULL;
-	public $runGoals;
-	public $usingDefaultGoals = NULL;
+//	const BUILD_CONFIG_FILE  = 'xbuild.json';
+//	const DEPLOY_CONFIG_FILE = 'xdeploy.json';
+//	const GLOBAL_CONFIG_FILE = 'xglobal.json';
 
 
 
-	public function __construct(
-			$configBuild, $configDeploy, $configGlobal,
-			$buildNumber, $runGoals=NULL) {
-		$this->configBuild  = $configBuild;
-		$this->configDeploy = $configDeploy;
-		$this->configGlobal = $configGlobal;
-		$this->buildNumber  = $buildNumber;
-		$this->runGoals     = $runGoals;
+	public function __construct() {
+		parent::__construct();
 	}
-
-
-
-	// run the goals
-	public function run($run=NULL) {
-		$log = xLog::getRoot();
-		// override run goals
-		if (\is_array($run) && !empty($run)) {
-			$this->runGoals = $run;
-		}
-		{
-			$msgGoals = \implode(', ', $this->runGoals);
-			$msgCount = \count($this->runGoals);
-			$msgS     = ($msgCount > 1 ? 's' : '');
-			$msgDefault = '';
-			if ($this->usingDefaultGoals != UsingDefaultGoalsEnum::USING_DEFINED_GOALS) {
-				$msgDefault = 'default ';
-			} else {
-				$msgDefault = 'specific ';
-			}
-			$log->publish();
-			$log->get('GOAL: ')->info("Running {$msgCount} {$msgDefault}goal{$msgS} -> {$msgGoals}");
-		}
-		return $this->doRun();
-	}
-	public function doRun() {
-		if (!\is_array($this->runGoals)) {
-			\fail ('Invalid runGoals value provided to builder!');
-			exit(1);
-		}
-		if (\count($this->runGoals) == 0) {
-			Goal::title('No goals to run.');
-			return 1;
-		}
-		// perform goals
-		$countSuccess = 0;
-		$countFailed  = 0;
-		foreach ($this->runGoals as $run) {
-			if ($run == NULL) continue;
-//echo "\n\nRUN: {$run}\n\n";
-			$goal = Goal::getGoalByName($run);
-//	$args = NULL;
-//	if (\strpos($run, ':', 1) !== FALSE) {
-//	list($run, $args) = explode(':', $run, 2);
-//	}
-			if ($goal == NULL) {
-//print_r(Goal::$goals);
-				fail ("Goal not found! {$run}");
-				exit(1);
-			}
-			$result = $goal->triggerRun($this->dry);
-			if ($result != 0) {
-				$countFailed++;
-				fail ("Failed to run goal: {$result} - {$run}");
-				return $result;
-			}
-			$countSuccess++;
-		}
-		return $result;
-	}
-
-
-
-//	// build number
-//	public function getbuildNumber() {
-//		if (empty($this->buildNumber)) {
-//			return '<Not Set>';
-//		}
-//		return (string) ((int) $this->buildNumber);
-//	}
 
 
 
