@@ -11,6 +11,7 @@ namespace pxn\xBuild;
 
 use pxn\phpUtils\ShellTools;
 use pxn\phpUtils\Numbers;
+use pxn\phpUtils\xLogger\xLog;
 
 
 class xBuilder extends \pxn\phpUtils\app\ShellApp {
@@ -212,6 +213,12 @@ fail(__FILE__.' - '.__LINE__.' - UNFINISHED!');
 			return self::DEFAULT_PROFILE;
 		}
 		return $this->profile;
+	}
+
+
+
+	public static function log() {
+		return xLog::getRoot('XBUILD');
 	}
 
 
