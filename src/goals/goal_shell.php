@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_shell extends Goal {
+class goal_shell extends xGoal {
 	use GoalShell;
 
 

@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_clean extends Goal {
+class goal_clean extends xGoal {
 
 
 

@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_deploy extends Goal {
+class goal_deploy extends xGoal {
 
 
 

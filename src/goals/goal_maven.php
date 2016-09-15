@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_maven extends Goal {
+class goal_maven extends xGoal {
 
 	const MAVEN_PATH = '/usr/bin/mvn';
 

@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_group extends Goal {
+class goal_group extends xGoal {
 
 	const MAX_GOALS = 256;
 

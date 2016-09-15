@@ -10,7 +10,7 @@
 namespace pxn\xBuild\goals;
 
 
-class goal_prep extends Goal {
+class goal_prep extends xGoal {
 
 
 

@@ -14,7 +14,7 @@ use pxn\phpUtils\Paths;
 use pxn\phpUtils\Defines;
 
 
-abstract class goal_eclipse extends Goal {
+abstract class goal_eclipse extends xGoal {
 
 
 
