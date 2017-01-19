@@ -34,7 +34,7 @@
 		]
 	},
 	"require": {
-		"pxn/phputils": "0.1.*",
+		"pxn/phputils": "0.1.26",
 		"symfony/process": "v3.1.*"
 	},
 	"require-dev": {
