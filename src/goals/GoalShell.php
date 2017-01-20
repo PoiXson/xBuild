@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 use pxn\phpUtils\Strings;
+use pxn\phpUtils\Defines;
 
 
 trait GoalShell {
@@ -25,8 +26,8 @@ trait GoalShell {
 
 	protected function runShellHex($args, $MaxCommands=16) {
 		if (!\is_array($args)) {
-			fail ('Invalid args argument provided to runShellHex() function!');
-			exit(1);
+			fail('Invalid args argument provided to runShellHex() function!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		$log = $this->getLogger();
 		$result = 0;
@@ -57,8 +58,8 @@ trait GoalShell {
 			} else {
 				$result = $this->runShellCmd($cmd);
 				if ($result != 0) {
-					fail ("Failed to run composer command: {$result} - {$cmd}");
-					return $result;
+					fail("Failed to run composer command: $result - $cmd",
+						Defines::EXIT_CODE_INTERNAL_ERROR);
 				}
 			}
 			$countSuccess++;
@@ -68,8 +69,8 @@ trait GoalShell {
 				$hexIndex = \dechex($index + 1);
 				// more to go
 				if (isset($args[$hexIndex])) {
-					fail ('Error!!! Reached max allowable commands, but more haven\'t been run!');
-					exit(1);
+					fail('Error!!! Reached max allowable commands, but more haven\'t been run!',
+						Defines::EXIT_CODE_INTERNAL_ERROR);
 				} else {
 					$log->warning('Reached max allowable commands.');
 				}

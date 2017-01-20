@@ -9,9 +9,9 @@
  */
 namespace pxn\xBuild\goals;
 
-use pxn\phpUtils\Defines;
 use pxn\phpUtils\Paths;
 use pxn\phpUtils\San;
+use pxn\phpUtils\Defines;
 
 use pxn\phpUtils\xLogger\xLog;
 
@@ -42,16 +42,16 @@ abstract class Goal {
 		$name = \trim($name);
 		$type = \trim($type);
 		if (empty($name)) {
-			fail ('name argument is required!');
-			exit(1);
+			fail('name argument is required!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		if (empty($type)) {
-			fail ('type argument is required!');
-			exit(1);
+			fail('type argument is required!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		if (!\is_array($args)) {
-			fail ('args argument is required!');
-			exit(1);
+			fail('args argument is required!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		// sanitize name/type values
 		$name = San::AlphaNumSafe($name);
@@ -59,12 +59,12 @@ abstract class Goal {
 				\str_replace('-', '_', $type)
 		);
 		if (empty($name)) {
-			fail ('Invalid name argument!');
-			exit(1);
+			fail('Invalid name argument!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		if (empty($type)) {
-			fail ('Invalid type argument!');
-			exit(1);
+			fail('Invalid type argument!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		$goal = NULL;
 		// class file exists
@@ -86,8 +86,8 @@ abstract class Goal {
 					$args
 			);
 		} catch (\Exception $e) {
-			fail ($e->getMessage(), 1, $e);
-			exit(1);
+			fail($e->getMessage(),
+				Defines::EXIT_CODE_INTERNAL_ERROR, $e);
 		}
 		self::$goals[$name] = $goal;
 		return $goal;

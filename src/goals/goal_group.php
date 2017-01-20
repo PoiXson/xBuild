@@ -9,6 +9,8 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Defines;
+
 
 class goal_group extends xGoal {
 
@@ -41,13 +43,13 @@ class goal_group extends xGoal {
 			$log->info("[ GRP {$hexIndex} ] {$run}");
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {
-				fail ("Goal not found by group! {$run}");
-				exit(1);
+				fail("Goal not found by group! $run",
+					Defines::EXIT_CODE_INTERNAL_ERROR);
 			}
 			$result = $goal->triggerRun($this->dry);
 			if ($result != 0) {
-				fail ("Failed to run goal: {$result} - {$run}");
-				return $result;
+				fail("Failed to run goal: $result - $run",
+					Defines::EXIT_CODE_INTERNAL_ERROR);
 			}
 		}
 		return $result;

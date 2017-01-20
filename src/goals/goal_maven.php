@@ -29,22 +29,22 @@ class goal_maven extends xGoal {
 		$pathTool = self::MAVEN_PATH;
 		// check for tools
 		if (!\file_exists($pathTool)) {
-			fail ("Maven not found! {$pathTool}");
-			exit(1);
+			fail("Maven not found! $pathTool",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		// check for pom.xml file
 		$pwd = Paths::pwd();
 		if (empty($pwd)) {
-			fail ('Failed to get pwd!');
-			exit(1);
+			fail('Failed to get pwd!',
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		$pathConfig = "{$pwd}/pom.xml";
 		if (!\file_exists($pathConfig)) {
-			fail ("pom.xml file not found in workspace! {$pathConfig}");
-			exit(1);
+			fail("pom.xml file not found in workspace! $pathConfig",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 //		parent::run();
-fail ('Sorry, this goal is unfinished!');
+fail('Sorry, this goal is unfinished!');
 	}
 
 

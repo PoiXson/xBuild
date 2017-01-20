@@ -10,6 +10,8 @@
 namespace pxn\xBuild\configs;
 
 use pxn\phpUtils\San;
+use pxn\phpUtils\Defines;
+
 use pxn\xBuild\goals\Goal;
 
 
@@ -39,17 +41,17 @@ trait config_goals {
 		foreach ($this->json['Goals'] as $name => $args) {
 			// validate args array
 			if (!\is_array($args)) {
-				fail ('Invalid config structure! goal arguments should be a map!');
-				exit(1);
+				fail('Invalid config structure! goal arguments should be a map!',
+					Defines::EXIT_CODE_CONFIG_ERROR);
 			}
 			// validate name value
 			if (empty($name)) {
-				fail ('Empty goal name found in config!');
-				exit(1);
+				fail('Empty goal name found in config!',
+					Defines::EXIT_CODE_CONFIG_ERROR);
 			}
 			if (!San::Validate_AlphaNumSafe($name)) {
-				fail ("Invalid goal name found in config! {$name}");
-				exit(1);
+				fail("Invalid goal name found in config! $name",
+					Defines::EXIT_CODE_CONFIG_ERROR);
 			}
 			// default type value
 			$type = isset($args['Type'])
@@ -58,8 +60,8 @@ trait config_goals {
 			unset($args['Type']);
 			// validate type value
 			if (!San::Validate_AlphaNumSafe($type)) {
-				fail ("Invalid goal type found in config! {$type}");
-				exit(1);
+				fail("Invalid goal type found in config! $type",
+					Defines::EXIT_CODE_CONFIG_ERROR);
 			}
 			// load goal class
 			{
@@ -69,8 +71,8 @@ trait config_goals {
 					$args
 				);
 				if ($g == NULL) {
-					fail ("Failed to load goal: {$name}");
-					exit(1);
+					fail("Failed to load goal: $name",
+						Defines::EXIT_CODE_CONFIG_ERROR);
 				}
 				$goals[$name] = $g;
 			}

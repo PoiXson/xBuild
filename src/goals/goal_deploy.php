@@ -21,7 +21,7 @@ class goal_deploy extends xGoal {
 
 
 	public function run() {
-fail ('Sorry, this goal is unfinished!');
+fail('Sorry, this goal is unfinished!');
 	}
 
 

@@ -12,6 +12,7 @@ namespace pxn\xBuild;
 use pxn\phpUtils\ShellTools;
 use pxn\phpUtils\Numbers;
 use pxn\phpUtils\xLogger\xLog;
+use pxn\phpUtils\Defines;
 
 
 class xBuilder extends \pxn\phpUtils\app\ShellApp {
@@ -85,8 +86,8 @@ class xBuilder extends \pxn\phpUtils\app\ShellApp {
 			$val = ShellTools::getFlag('-w', '--max-wait');
 			if ($val !== NULL) {
 				if (!Numbers::isNumber($val)) {
-					fail("Invalid value for --max-wait falg: {$val}"); ExitNow(1);
-					return FALSE;
+					fail("Invalid value for --max-wait falg: $val",
+						Defines::EXIT_CODE_INVALID_ARGUMENT);
 				}
 				$this->maxWait = (int) $val;
 			}
@@ -97,8 +98,8 @@ class xBuilder extends \pxn\phpUtils\app\ShellApp {
 			$val = ShellTools::getFlag('-b', '--build-number');
 			if ($val !== NULL) {
 				if (!Numbers::isNumber($val)) {
-					fail("Invalid value for --build-number falg: {$val}"); ExitNow(1);
-					return FALSE;
+					fail("Invalid value for --build-number falg: $val",
+						Defines::EXIT_CODE_INVALID_ARGUMENT);
 				}
 				$this->buildNumber = (int) $val;
 			}
@@ -119,8 +120,8 @@ fail(__FILE__.' - '.__LINE__.' - UNFINISHED!');
 			$val = ShellTools::getFlag('-D', '--deploy-config-depth');
 			if ($val !== NULL) {
 				if (!Numbers::isNumber($val)) {
-					fail("Invalid value for --deploy-config-depth falg: {$val}"); ExitNow(1);
-					return FALSE;
+					fail("Invalid value for --deploy-config-depth falg: $val",
+						Defines::EXIT_CODE_INVALID_ARGUMENT);
 				}
 				$this->deploySearchDepth = (int) $val;
 			}

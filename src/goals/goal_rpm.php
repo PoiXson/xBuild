@@ -11,6 +11,7 @@ namespace pxn\xBuild\goals;
 
 use pxn\phpUtils\Strings;
 use pxn\phpUtils\Paths;
+use pxn\phpUtils\Defines;
 
 
 class goal_rpm extends goal_shell {
@@ -34,18 +35,18 @@ class goal_rpm extends goal_shell {
 		$buildroot = self::BUILD_ROOT;
 		// check for tools
 		if (!\file_exists($pathTool)) {
-			fail ("RPM-Build not found! {$pathTool}");
-			exit(1);
+			fail("RPM-Build not found! $pathTool",
+				Defines::EXIT_CODE_INTERNAL_ERROR);
 		}
 		// check for project.spec file
 		$pwd = Paths::pwd();
 		if (empty($pwd)) {
-			fail ('Failed to get pwd!');
-			exit(1);
+			fail('Failed to get pwd!',
+				Defines::EXIT_CODE_INTERNAL_ERROR);
 		}
 		if (!isset($this->args['Spec']) || empty($this->args['Spec'])) {
-			fail ('Spec file field not provided in xbuild.json config!');
-			exit(1);
+			fail('Spec file field not provided in xbuild.json config!',
+				Defines::EXIT_CODE_INTERNAL_ERROR);
 		}
 		$msgDry = ($this->isDry() ? '##DRY## ' : '');
 		$log = $this->getLogger();
@@ -56,8 +57,8 @@ class goal_rpm extends goal_shell {
 				'.spec'
 		);
 		if (!\file_exists($pathConfig)) {
-			fail ("{$specFile} file not found in workspace! {$pathConfig}");
-			exit(1);
+			fail("$specFile file not found in workspace! $pathConfig",
+				Defines::EXIT_CODE_CONFIG_ERROR);
 		}
 		// build arch
 		$arch = $this->args['Arch'];
@@ -76,8 +77,8 @@ class goal_rpm extends goal_shell {
 				} else {
 					$result = $this->runShellCmd($cmd);
 					if ($result != 0) {
-						fail ("Failed to remove old build dir! {$result} - {$buildroot}/");
-						exit(1);
+						fail("Failed to remove old build dir! $result - {$buildroot}/",
+							Defines::EXIT_CODE_IO_ERROR);
 					}
 					$log->publish();
 				}
@@ -91,8 +92,8 @@ class goal_rpm extends goal_shell {
 				} else {
 					$result = $this->runShellCmd($cmd);
 					if ($result != 0) {
-						fail ("Failed to remove old build dir! {$result} - target/");
-						exit(1);
+						fail("Failed to remove old build dir! $result - target/",
+							Defines::EXIT_CODE_IO_ERROR);
 					}
 					$log->publish();
 				}
@@ -107,8 +108,8 @@ class goal_rpm extends goal_shell {
 			} else {
 				$result = \mkdir($path, 0775);
 				if ($result == FALSE) {
-					fail ("Failed to create directory {$path}");
-					exit(1);
+					fail("Failed to create directory $path",
+						Defines::EXIT_CODE_IO_ERROR);
 				}
 			}
 		}
@@ -130,8 +131,8 @@ class goal_rpm extends goal_shell {
 				} else {
 					$result = \mkdir($path, 0775);
 					if ($result == FALSE) {
-						fail ("Failed to create directory {$path}");
-						exit(1);
+						fail("Failed to create directory $path",
+							Defines::EXIT_CODE_IO_ERROR);
 					}
 				}
 			}
@@ -148,8 +149,8 @@ class goal_rpm extends goal_shell {
 					"{$pwd}/{$buildroot}/SPECS/{$specFile}"
 				);
 				if (!$result) {
-					fail ("Failed to copy spec file! {$specFile}");
-					exit(1);
+					fail("Failed to copy spec file! $specFile",
+						Defines::EXIT_CODE_IO_ERROR);
 				}
 			}
 		}
@@ -195,8 +196,8 @@ class goal_rpm extends goal_shell {
 			);
 			if ($result != 0) {
 				$msg = \implode(' ', $cmd);
-				fail ("Failed to build rpm! {$result} - {$msg}");
-				exit(1);
+				fail("Failed to build rpm! $result - $msg",
+					Defines::EXIT_CODE_IO_ERROR);
 			}
 		}
 	}

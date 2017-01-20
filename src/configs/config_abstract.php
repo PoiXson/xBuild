@@ -9,6 +9,8 @@
  */
 namespace pxn\xBuild\configs;
 
+use pxn\phpUtils\Defines;
+
 
 abstract class config_abstract {
 
@@ -28,13 +30,13 @@ abstract class config_abstract {
 		}
 		$data = \file_get_contents($file);
 		if (empty($data)) {
-			fail ("Failed to load file: {$file}", NULL);
-			return FALSE;
+			fail("Failed to load file: $file",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		$result = self::LoadString($data);
 		if (!$result) {
-			fail ("Failed to decode json file: {$file}", NULL);
-			return FALSE;
+			fail("Failed to decode json file: $file",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		return TRUE;
 	}
@@ -44,8 +46,8 @@ abstract class config_abstract {
 		}
 		$json = \json_decode($data, TRUE);
 		if ($json == NULL) {
-			fail ("Failed to decode json data", NULL);
-			return FALSE;
+			fail("Failed to decode json data",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		$this->json = $json;
 		return TRUE;

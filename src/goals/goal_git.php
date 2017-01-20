@@ -9,6 +9,8 @@
  */
 namespace pxn\xBuild\goals;
 
+use pxn\phpUtils\Defines;
+
 
 class goal_git extends goal_shell {
 
@@ -26,8 +28,8 @@ class goal_git extends goal_shell {
 		$pathTool = self::GIT_PATH;
 		// check for tools
 		if (!\file_exists($pathTool)) {
-			fail ("Git not found! {$pathTool}");
-			exit(1);
+			fail("Git not found! $pathTool",
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		parent::run();
 	}

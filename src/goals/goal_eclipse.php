@@ -32,13 +32,13 @@ abstract class goal_eclipse extends xGoal {
 			$filepath = '';
 		}
 		if (empty($filename)) {
-			fail ('Filename argument is required!');
-			exit(1);
+			fail('Filename argument is required!',
+				Defines::EXIT_CODE_INVALID_ARGUMENT);
 		}
 		$pwd = Paths::pwd();
 		if (empty($pwd)) {
-			fail ('Failed to get pwd!');
-			exit(1);
+			fail('Failed to get pwd!',
+				Defines::EXIT_CODE_IO_ERROR);
 		}
 		if (!\is_array($data)) {
 			$data = [];
@@ -77,8 +77,8 @@ abstract class goal_eclipse extends xGoal {
 				$output
 			);
 			if ($result == FALSE) {
-				fail ("Failed to write file {$pathDisplay}");
-				exit(1);
+				fail("Failed to write file $pathDisplay",
+					Defines::EXIT_CODE_IO_ERROR);
 			}
 		}
 		$log->fine("Wrote {$linesCount} lines to file {$pathDisplay}");
