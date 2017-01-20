@@ -50,8 +50,8 @@ trait GoalShell {
 				continue;
 			}
 			$msgDry = ($this->isDry() ? '##DRY## ' : '');
-			$log->publish("{$msgDry}[ CMD {$hexIndex} ] {$cmd}");
-//			$log->info("CMD [ {$hexIndex} ] {$cmd}");
+			$log->publish("{$msgDry}[ CMD $hexIndex ] $cmd");
+//			$log->info("CMD [ $hexIndex ] $cmd");
 			if ($this->dry) {
 //				$log->publish("### Dry run, command skipped ### ");
 				$log->publish(' ...  ... ');
@@ -79,7 +79,7 @@ trait GoalShell {
 			}
 		}
 		$msgS = ($countSuccess > 1 ? 's' : '');
-		$log->info("Finished [ {$countSuccess} ] command{$msgS}!");
+		$log->info("Finished [ $countSuccess ] command{$msgS}!");
 		return $result;
 	}
 	protected function runShellCmd($cmd) {
@@ -109,13 +109,13 @@ trait GoalShell {
 				if ($type === Process::ERR) {
 					foreach ($lines as $line) {
 						if (empty($line)) continue;
-						$log->err("ERR> {$line}");
+						$log->err("ERR> $line");
 					}
 				// std out
 				} else {
 					foreach ($lines as $line) {
 						if (empty($line)) continue;
-						$log->out("OUT> {$line}");
+						$log->out("OUT> $line");
 					}
 				}
 			}

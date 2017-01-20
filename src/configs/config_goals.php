@@ -29,13 +29,15 @@ trait config_goals {
 		if (!\is_array($this->goals)) {
 			$this->loadGoals();
 		}
-		if (!isset($this->json['Goals']))
+		if (!isset($this->json['Goals'])) {
 			return NULL;
+		}
 		return $this->goals;
 	}
 	public function loadGoals() {
-		if (\is_array($this->goals))
+		if (\is_array($this->goals)) {
 			return;
+		}
 		$goals = array();
 		$count = 0;
 		foreach ($this->json['Goals'] as $name => $args) {

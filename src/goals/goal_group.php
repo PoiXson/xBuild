@@ -32,15 +32,17 @@ class goal_group extends xGoal {
 			$hexIndex = \dechex($index);
 			// skip or break
 			if (!isset($this->args[$hexIndex])) {
-				if ($index == 0)
+				if ($index == 0) {
 					continue;
+				}
 				break;
 			}
 			// run goal
 			$run = $this->args[$hexIndex];
-			if (empty($run))
+			if (empty($run)) {
 				continue;
-			$log->info("[ GRP {$hexIndex} ] {$run}");
+			}
+			$log->info("[ GRP $hexIndex ] $run");
 			$goal = Goal::getGoalByName($run);
 			if ($goal == NULL) {
 				fail("Goal not found by group! $run",

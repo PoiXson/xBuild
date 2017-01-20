@@ -128,7 +128,7 @@ abstract class Goal {
 
 	public static function title($msg) {
 		xLog::getRoot()
-				->publish(" [[ {$msg} ]] ");
+				->publish(" [[ $msg ]] ");
 	}
 
 

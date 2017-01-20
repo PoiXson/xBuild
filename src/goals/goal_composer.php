@@ -57,7 +57,7 @@ class goal_composer extends goal_shell {
 //	public function run() {
 //		return $this->runShellHex($this->args);
 //		$args = $this->args['Args'];
-//		$cmd = "composer {$args}";
+//		$cmd = "composer $args";
 //		return $this->runShell($cmd);
 // composer show -t --profile
 //	}

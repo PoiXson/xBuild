@@ -140,7 +140,7 @@ class goal_rpm extends goal_shell {
 		$log->publish();
 		// copy spec file
 		{
-			$log->info("Copying spec file.. {$specFile}");
+			$log->info("Copying spec file.. $specFile");
 			if ($this->dry) {
 //				$log->publish(" {msgDry}copy '{$pwd}/{$specFile}' '{$pwd}/{$buildroot}/SPECS/'");
 			} else {
@@ -179,7 +179,7 @@ class goal_rpm extends goal_shell {
 		$buildNumber = 'x';
 		$cmd = [
 				'rpmbuild -bb',
-				"--target {$arch}",
+				"--target $arch",
 				"--define='_topdir {$pwd}/{$buildroot}'",
 				"--define='_tmppath {$pwd}/{$buildroot}/tmp'",
 				"--define='SOURCE_ROOT {$pwd}'",
@@ -188,7 +188,7 @@ class goal_rpm extends goal_shell {
 				"{$pwd}/{$buildroot}/SPECS/{$specFile}"
 		];
 		if ($this->dry) {
-			$msg = \implode("\n {$msgDry}   ", $cmd);
+			$msg = \implode("\n $msgDry   ", $cmd);
 			$log->publish(" {$msgDry}{$msg}");
 		} else {
 			$result = $this->runShellCmd(

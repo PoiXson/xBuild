@@ -36,8 +36,9 @@ class config_xbuild extends config_abstract {
 	 */
 	public function getName() {
 		// key exists
-		if (isset($this->json[self::KEY_NAME]))
+		if (isset($this->json[self::KEY_NAME])) {
 			return $this->json[self::KEY_NAME];
+		}
 		return NULL;
 	}
 
@@ -49,8 +50,9 @@ class config_xbuild extends config_abstract {
 	 */
 	public function getVersion() {
 		// key exists
-		if (isset($this->json[self::KEY_VERSION]))
+		if (isset($this->json[self::KEY_VERSION])) {
 			return $this->json[self::KEY_VERSION];
+		}
 		return NULL;
 	}
 
@@ -62,14 +64,17 @@ class config_xbuild extends config_abstract {
 	 */
 	public function getVersionFiles() {
 		// key exists
-		if (!isset($this->json[self::KEY_VERSION_FILES]))
+		if (!isset($this->json[self::KEY_VERSION_FILES])) {
 			return NULL;
+		}
 		$data = $this->json[self::KEY_VERSION_FILES];
-		if (is_array($data))
+		if (is_array($data)) {
 			return $data;
+		}
 		$data = (string) $data;
-		if (!empty($data))
+		if (!empty($data)) {
 			return array($data);
+		}
 		return NULL;
 	}
 

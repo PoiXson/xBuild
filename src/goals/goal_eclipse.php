@@ -60,14 +60,14 @@ abstract class goal_eclipse extends xGoal {
 		foreach($data as $line) {
 			$output .= \str_replace('\t', Defines::TAB, $line).Defines::CRLF;
 		}
-		$log->info("Creating file {$pathDisplay}");
+		$log->info("Creating file $pathDisplay");
 		if (!$this->isDry()) {
 			// create directory
 			{
 				$dirpath = \dirname($path);
 				if (!\is_dir($dirpath)) {
 					$dirpathDisplay = \substr($dirpath, \strlen($pwd)+1).'/';
-					$log->info("Creating dir: {$dirpathDisplay}");
+					$log->info("Creating dir: $dirpathDisplay");
 					\mkdir($dirpath);
 				}
 			}
@@ -81,7 +81,7 @@ abstract class goal_eclipse extends xGoal {
 					Defines::EXIT_CODE_IO_ERROR);
 			}
 		}
-		$log->fine("Wrote {$linesCount} lines to file {$pathDisplay}");
+		$log->fine("Wrote $linesCount lines to file $pathDisplay");
 	}
 
 
