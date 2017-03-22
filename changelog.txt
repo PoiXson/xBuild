@@ -1,6 +1,7 @@
 xBuild 0.1.x - Build and deploy scripts
 
 
-2016-xx-xx xBuild 0.1.1
+2017-xx-xx xBuild 0.1.x
 =======================
-*
+* Initial release
+* using phpUtils 0.1.x phpPortal 0.1.x and pxdb 0.1.x
